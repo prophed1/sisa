@@ -1,0 +1,7 @@
+# Rahasia lokal tidak pernah ikut terunggah ke Vercel.
+.env*
+!.env.example
+
+# Arsip lokal, bukan bagian dari aplikasi.
+.logs/
+screenshots/
