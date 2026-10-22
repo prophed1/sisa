@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { suggestCategory } from "@/lib/categorize";
 import {
+  countPendingEmailDrafts,
   ensureInboxToken,
   findInboxUserId,
   findSimilarDraft,
@@ -40,6 +41,19 @@ export async function readInbox(db: Queryable, userId: string) {
 
 export async function readDrafts(db: Queryable, userId: string) {
   return listEmailDrafts(db, userId);
+}
+
+/** Satu halaman draf beserta jumlah total yang menunggu. */
+export async function readDraftPage(
+  db: Queryable,
+  userId: string,
+  options: { limit?: number; offset?: number } = {},
+) {
+  const [drafts, total] = await Promise.all([
+    listEmailDrafts(db, userId, options),
+    countPendingEmailDrafts(db, userId),
+  ]);
+  return { drafts, total };
 }
 
 /** Id draf dibuat deterministik supaya email yang sama tidak masuk dua kali. */
@@ -210,6 +224,46 @@ export async function confirmDraft(
 
 export async function dismissDraft(db: Queryable, userId: string, id: string) {
   await setEmailDraftStatus(db, userId, id, "dismissed");
+}
+
+/** Berapa draf yang disimpan per permintaan saat pengguna menekan Simpan semua. */
+export const BULK_CONFIRM_LIMIT = 25;
+
+export interface BulkConfirmResult {
+  confirmed: number;
+  /** Draf yang ditutup karena mutasinya sudah ada di catatan. */
+  skipped: number;
+  /** Sisa draf yang masih menunggu setelah putaran ini. */
+  remaining: number;
+}
+
+/**
+ * Simpan banyak draf sekaligus. Dipakai saat menyusul email lama: satu bulan
+ * mutasi bisa menghasilkan puluhan draf, dan menekan Simpan satu per satu
+ * membuat impor riwayat tidak masuk akal. Pemanggil mengulang selama
+ * `remaining` masih lebih dari nol, jadi satu permintaan tidak pernah
+ * menggantung terlalu lama.
+ */
+export async function confirmPendingDrafts(
+  db: Queryable,
+  userId: string,
+  limit = BULK_CONFIRM_LIMIT,
+): Promise<BulkConfirmResult> {
+  const batch = await listEmailDrafts(db, userId, { limit, offset: 0 });
+  let confirmed = 0;
+  let skipped = 0;
+
+  for (const draft of batch) {
+    const result = await confirmDraft(db, userId, draft.id);
+    if (result.transaction) confirmed += 1;
+    else if (result.duplicate) skipped += 1;
+  }
+
+  return {
+    confirmed,
+    skipped,
+    remaining: await countPendingEmailDrafts(db, userId),
+  };
 }
 
 /** Ambil token dari alamat seperti "Sisa <sisa+ab12cd34ef56@domain.test>". */

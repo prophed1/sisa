@@ -3,9 +3,10 @@ import { CATEGORY_ORDER } from "@/lib/data/categories";
 import { database } from "@/lib/db/pg";
 import {
   confirmDraft,
+  confirmPendingDrafts,
   dismissDraft,
   ingestEmail,
-  readDrafts,
+  readDraftPage,
   readInbox,
 } from "@/lib/email-service";
 import { isBodyTooLarge, isSameOriginRequest, jsonNoStore } from "@/lib/http";
@@ -19,6 +20,16 @@ import type { CategoryKey } from "@/lib/types";
 const MAX_TEXT = 20_000;
 const MAX_SUBJECT = 200;
 const DRAFT_ID = /^draft-[a-f0-9]{16}$/;
+/** Batas kerangka halaman; angka sisanya diatur repository. */
+const MAX_PAGE = 200;
+
+function numberParam(value: string | null) {
+  if (!value) return undefined;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) && parsed >= 0
+    ? Math.min(Math.floor(parsed), MAX_PAGE)
+    : undefined;
+}
 
 export async function GET(request: Request) {
   const user = await getSessionUser(request.headers);
@@ -26,12 +37,16 @@ export async function GET(request: Request) {
     return jsonNoStore({ error: "Perlu masuk dulu." }, { status: 401 });
   }
 
+  const url = new URL(request.url);
+  const limit = numberParam(url.searchParams.get("limit"));
+  const offset = numberParam(url.searchParams.get("offset"));
+
   try {
-    const [drafts, inbox] = await Promise.all([
-      readDrafts(database, user.id),
+    const [page, inbox] = await Promise.all([
+      readDraftPage(database, user.id, { limit, offset }),
       readInbox(database, user.id),
     ]);
-    return jsonNoStore({ drafts, inbox });
+    return jsonNoStore({ drafts: page.drafts, total: page.total, inbox });
   } catch (error) {
     console.error("[email] gagal membaca draf:", error);
     return jsonNoStore(
@@ -144,6 +159,14 @@ export async function POST(request: Request) {
           );
         }
         return jsonNoStore({ transaction: result.transaction });
+      }
+
+      case "confirm-all": {
+        // Menyusul email lama: simpan satu putaran berisi beberapa draf, lalu
+        // klien mengulang selama masih ada sisa. Duplikat tetap dilewati
+        // lewat pemeriksaan yang sama seperti konfirmasi satuan.
+        const result = await confirmPendingDrafts(database, user.id);
+        return jsonNoStore(result);
       }
 
       case "dismiss": {

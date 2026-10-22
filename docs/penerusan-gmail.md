@@ -32,6 +32,36 @@ penerusan.
 6. Buka halaman **Email bank**: email yang terbaca muncul sebagai draf di
    *Menunggu konfirmasi*, dan tetap perlu kamu tekan Simpan.
 
+## Mengimpor mutasi lama
+
+Penerusan harian hanya membaca email dua hari terakhir. Untuk menarik mutasi
+sebelum akun ini ada, lebarkan jendela pencariannya, jalankan skrip beberapa
+kali, lalu simpan drafnya sekaligus dari aplikasi.
+
+1. Di Apps Script, ganti baris `PENCARIAN` menjadi rentang yang kamu mau.
+   Halaman **Email bank → Impor riwayat** menampilkan baris siap salin untuk
+   3, 6, 12, atau 24 bulan:
+
+   ```js
+   const PENCARIAN = "from:bankbsi.co.id -label:" + LABEL + " newer_than:365d";
+   ```
+
+2. Tekan **Terapkan**, lalu jalankan `forwardBankEmails` berulang. Satu putaran
+   memproses maksimal 20 utas dan memberi label `sisa-terkirim`, jadi email
+   yang sudah terkirim tidak diambil lagi. Ulangi sampai log berakhir dengan
+   `utas ditemukan: 0`.
+3. Buka **Email bank**. Draf lama masuk ke *Menunggu konfirmasi*; periksa
+   beberapa yang teratas, lalu tekan **Simpan semua**. Daftar menampilkan 50
+   draf per halaman — tombol **Muat … lagi** mengambil sisanya.
+4. Setelah selesai, kembalikan `PENCARIAN` ke `newer_than:2d` dan tekan
+   **Terapkan** lagi supaya trigger 15 menit hanya memeriksa email baru.
+
+Aman diulang: server menolak duplikat lewat `message-id` dan lewat kecocokan
+tanggal + nominal + jenis (toleransi 10 menit) di **semua bulan**, termasuk
+terhadap catatan yang dulu kamu input manual. Draf yang mutasinya ternyata
+sudah tercatat akan ditutup dan dihitung sebagai *dilewati* pada ringkasan
+Simpan semua.
+
 Kalau draf tidak muncul, buka **Executions** di Apps Script untuk melihat respons
 webhook. `202` berarti permintaan diterima — lihat kolom `accepted` dan `reason`:
 `false` dengan alasan *tidak dikenali* berarti isinya bukan mutasi, sedangkan

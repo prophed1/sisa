@@ -375,18 +375,42 @@ export async function insertEmailDraft(
   return rows[0] ? toEmailDraft(rows[0]) : null;
 }
 
+/** Satu halaman daftar draf; dipakai juga saat menyusul email lama. */
+export const DRAFT_PAGE_SIZE = 50;
+
+/**
+ * Draf yang masih menunggu konfirmasi, terbaru dulu. `id` ikut jadi urutan
+ * kedua karena email lama yang diimpor sekaligus punya `received_at` yang
+ * hampir sama — tanpa itu halaman bisa melompati atau mengulang baris.
+ */
 export async function listEmailDrafts(
   db: Queryable,
   userId: string,
+  options: { limit?: number; offset?: number } = {},
 ): Promise<EmailDraft[]> {
+  const limit = Math.min(Math.max(options.limit ?? DRAFT_PAGE_SIZE, 1), 200);
+  const offset = Math.max(options.offset ?? 0, 0);
   const { rows } = await db.query<DraftRow>(
     `select ${DRAFT_COLUMNS} from email_drafts
       where user_id = $1 and status = 'pending'
-      order by received_at desc
-      limit 50`,
-    [userId],
+      order by received_at desc, id desc
+      limit $2 offset $3`,
+    [userId, limit, offset],
   );
   return rows.map(toEmailDraft);
+}
+
+/** Jumlah seluruh draf yang menunggu, termasuk yang belum tampil di layar. */
+export async function countPendingEmailDrafts(
+  db: Queryable,
+  userId: string,
+): Promise<number> {
+  const { rows } = await db.query<{ count: string }>(
+    `select count(*)::text as count from email_drafts
+      where user_id = $1 and status = 'pending'`,
+    [userId],
+  );
+  return Number(rows[0]?.count ?? 0);
 }
 
 export async function getEmailDraft(

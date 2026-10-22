@@ -33,15 +33,33 @@ const textareaClass =
 const inputClass =
   "h-10 w-full rounded-[10px] border border-line bg-surface px-3 text-[12.5px] outline-none transition-colors placeholder:text-faint/70 focus:border-line-strong";
 
+/** Satu halaman daftar draf; sama dengan batas di repository. */
+const PAGE = 50;
+/** Batas atas yang diterima API, supaya satu permintaan tidak terlalu berat. */
+const MAX_PAGE = 200;
+
+const RANGES = [
+  { label: "3 bulan", days: 90 },
+  { label: "6 bulan", days: 180 },
+  { label: "12 bulan", days: 365 },
+  { label: "24 bulan", days: 730 },
+];
+
 export function EmailWorkspace({
   initialDrafts,
+  initialTotal,
   initialInbox,
 }: {
   initialDrafts: EmailDraft[];
+  initialTotal: number;
   initialInbox: InboxInfo;
 }) {
   const { refresh } = useLedger();
   const [drafts, setDrafts] = useState<EmailDraft[]>(initialDrafts);
+  const [total, setTotal] = useState(initialTotal);
+  const [bulkDone, setBulkDone] = useState<number | null>(null);
+  const [range, setRange] = useState(RANGES[2].days);
+  const [queryCopied, setQueryCopied] = useState(false);
   const [inbox] = useState<InboxInfo>(initialInbox);
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
@@ -67,9 +85,21 @@ export function EmailWorkspace({
           draft?: EmailDraft | null;
           transaction?: unknown;
           existing?: { merchant?: string; date?: string } | null;
+          confirmed?: number;
+          skipped?: number;
+          remaining?: number;
         }
       | null;
     return { response, data };
+  };
+
+  /** Ambil ulang halaman pertama; dipakai setelah impor dan saat memuat lagi. */
+  const loadPage = async (limit: number) => {
+    const response = await fetch(`/api/email/drafts?limit=${limit}`, {
+      cache: "no-store",
+    });
+    if (!response.ok) return null;
+    return (await response.json()) as { drafts: EmailDraft[]; total: number };
   };
 
   const readPasted = async () => {
@@ -96,6 +126,7 @@ export function EmailWorkspace({
             ? current
             : [created, ...current],
         );
+        setTotal((current) => current + 1);
       }
       setNotice(
         data?.duplicate
@@ -127,6 +158,7 @@ export function EmailWorkspace({
         return;
       }
       setDrafts((current) => current.filter((item) => item.id !== draft.id));
+      setTotal((current) => Math.max(current - 1, 0));
 
       if (data?.duplicate) {
         const existing = data.existing;
@@ -165,11 +197,111 @@ export function EmailWorkspace({
         return;
       }
       setDrafts((current) => current.filter((item) => item.id !== draft.id));
+      setTotal((current) => Math.max(current - 1, 0));
       setNotice("Draf diabaikan. Tidak ada yang masuk ke catatan.");
     } catch {
       setError("Tidak bisa menghubungi server. Coba lagi.");
     } finally {
       setBusy(null);
+    }
+  };
+
+  /**
+   * Simpan semua draf yang menunggu, termasuk hasil impor riwayat. Server
+   * memproses beberapa draf per permintaan, jadi klien mengulang sampai sisa
+   * nol sambil menampilkan kemajuan.
+   */
+  const confirmAll = async () => {
+    if (busy || total === 0) return;
+    setBusy("bulk");
+    setError(null);
+    setNotice(null);
+    setBulkDone(0);
+
+    const target = total;
+    let confirmed = 0;
+    let skipped = 0;
+    let remaining = target;
+    let failed = false;
+
+    try {
+      while (remaining > 0) {
+        const { response, data } = await post({ action: "confirm-all" });
+        if (!response.ok) {
+          setError("Sebagian draf belum bisa disimpan. Coba lagi.");
+          failed = true;
+          break;
+        }
+
+        const processed = (data?.confirmed ?? 0) + (data?.skipped ?? 0);
+        confirmed += data?.confirmed ?? 0;
+        skipped += data?.skipped ?? 0;
+        remaining = data?.remaining ?? 0;
+        setBulkDone(target - remaining);
+
+        // Server yang tidak memajukan apa pun tidak boleh membuat putaran
+        // ini berjalan tanpa henti.
+        if (processed === 0) break;
+      }
+    } catch {
+      setError("Tidak bisa menghubungi server. Coba lagi.");
+      failed = true;
+    }
+
+    try {
+      const page = await loadPage(
+        Math.min(Math.max(drafts.length, PAGE), MAX_PAGE),
+      ).catch(() => null);
+      if (page) {
+        setDrafts(page.drafts);
+        setTotal(page.total);
+      }
+      if (confirmed > 0 || skipped > 0) await refresh();
+    } finally {
+      setBulkDone(null);
+      setBusy(null);
+    }
+
+    if (!failed && (confirmed > 0 || skipped > 0)) {
+      setNotice(
+        `${confirmed} draf tersimpan sebagai transaksi${
+          skipped > 0
+            ? `, ${skipped} dilewati karena mutasinya sudah tercatat`
+            : ""
+        }.`,
+      );
+    }
+  };
+
+  /** Draf lama bisa lebih dari satu halaman; muat sisanya tanpa pindah layar. */
+  const loadMore = async () => {
+    if (busy) return;
+    setBusy("more");
+    setError(null);
+    try {
+      const page = await loadPage(
+        Math.min(drafts.length + PAGE, MAX_PAGE),
+      );
+      if (!page) {
+        setError("Draf lain tidak bisa dimuat. Coba lagi.");
+        return;
+      }
+      setDrafts(page.drafts);
+      setTotal(page.total);
+    } catch {
+      setError("Tidak bisa menghubungi server. Coba lagi.");
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  const copyQuery = async () => {
+    try {
+      await navigator.clipboard.writeText(historyQuery);
+      setQueryCopied(true);
+      window.setTimeout(() => setQueryCopied(false), 2000);
+    } catch {
+      setError("Baris pencarian tidak bisa disalin otomatis; salin manual.");
     }
   };
 
@@ -183,6 +315,8 @@ export function EmailWorkspace({
       setError("Alamat tidak bisa disalin otomatis; salin manual dari kotak di atas.");
     }
   };
+
+  const historyQuery = `from:bankbsi.co.id -label:sisa-terkirim newer_than:${range}d`;
 
   const copyToken = async () => {
     if (!inbox?.token) return;
@@ -295,10 +429,30 @@ export function EmailWorkspace({
             <PanelHeader
               title="Menunggu konfirmasi"
               caption="Draf dari email yang sudah dibaca, belum menjadi transaksi."
+              actionInline
               action={
-                <Badge tone={drafts.length ? "sand" : "outline"}>
-                  {drafts.length}
-                </Badge>
+                <div className="flex items-center gap-2">
+                  <Badge tone={total ? "sand" : "outline"}>{total}</Badge>
+                  {total > 0 ? (
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      onClick={confirmAll}
+                      disabled={busy !== null}
+                    >
+                      {busy === "bulk" ? (
+                        <>
+                          <CircleNotch size={12} className="animate-spin" />
+                          <span className="num">
+                            {bulkDone ?? 0}/{total}
+                          </span>
+                        </>
+                      ) : (
+                        "Simpan semua"
+                      )}
+                    </Button>
+                  ) : null}
+                </div>
               }
             />
 
@@ -408,6 +562,29 @@ export function EmailWorkspace({
                   })}
                 </ul>
               )}
+
+              {drafts.length < total ? (
+                <div className="mt-3 flex items-center justify-between gap-3 border-t border-line pt-3">
+                  <span className="num text-[10.5px] text-faint">
+                    {drafts.length} dari {total} draf
+                  </span>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={loadMore}
+                    disabled={busy !== null}
+                  >
+                    {busy === "more" ? (
+                      <>
+                        <CircleNotch size={12} className="animate-spin" />
+                        Memuat
+                      </>
+                    ) : (
+                      `Muat ${Math.min(PAGE, total - drafts.length)} lagi`
+                    )}
+                  </Button>
+                </div>
+              ) : null}
             </div>
           </Panel>
         </div>
@@ -506,6 +683,83 @@ export function EmailWorkspace({
                   </p>
                 </div>
               </details>
+            </div>
+          </Panel>
+
+          <Panel>
+            <PanelHeader
+              title="Impor riwayat"
+              caption="Menyusul mutasi lama, bukan hanya yang masuk setelah akun dibuat."
+            />
+            <div className="px-5 pb-5 sm:px-6 sm:pb-6">
+              <label className="flex items-center justify-between gap-3">
+                <span className="text-[10.5px] font-medium uppercase tracking-[0.11em] text-muted">
+                  Rentang email
+                </span>
+                <select
+                  value={range}
+                  onChange={(event) => setRange(Number(event.target.value))}
+                  className="h-8 rounded-[8px] border border-line bg-surface px-2 text-[11px] text-muted outline-none transition-colors focus:border-line-strong"
+                >
+                  {RANGES.map((option) => (
+                    <option key={option.days} value={option.days}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <p className="mt-3 text-[11px] leading-relaxed text-muted">
+                Ganti baris{" "}
+                <code className="font-mono text-[10.5px] text-ink">PENCARIAN</code>{" "}
+                di skrip Apps Script dengan baris di bawah, lalu jalankan{" "}
+                <code className="font-mono text-[10.5px] text-ink">
+                  forwardBankEmails
+                </code>
+                {" "}berulang.
+              </p>
+
+              <div className="mt-2.5 flex items-start gap-2 rounded-[11px] border border-line bg-canvas px-3 py-2">
+                <code className="min-w-0 flex-1 break-all font-mono text-[10px] leading-relaxed text-muted">
+                  {historyQuery}
+                </code>
+                <Button
+                  size="smIcon"
+                  variant="ghost"
+                  aria-label="Salin baris pencarian"
+                  onClick={copyQuery}
+                >
+                  <CopySimple size={13} />
+                </Button>
+              </div>
+              <p className="mt-1.5 text-[10px] leading-relaxed text-faint">
+                {queryCopied
+                  ? "Baris pencarian tersalin."
+                  : "Satu putaran membaca 20 utas; ulangi sampai log berbunyi utas ditemukan: 0."}
+              </p>
+
+              <ol className="mt-3 space-y-2 border-t border-line pt-3 text-[10.5px] leading-relaxed text-muted">
+                <li className="flex items-start gap-2">
+                  <span className="num mt-[1px] w-3 shrink-0 font-mono text-[9.5px] text-faint">
+                    1
+                  </span>
+                  Jalankan skrip sekali. Email yang mutasinya sudah ada di catatan
+                  dilewati otomatis, termasuk yang dulu kamu input manual.
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="num mt-[1px] w-3 shrink-0 font-mono text-[9.5px] text-faint">
+                    2
+                  </span>
+                  Periksa beberapa draf teratas sebelum menyimpan banyak sekaligus.
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="num mt-[1px] w-3 shrink-0 font-mono text-[9.5px] text-faint">
+                    3
+                  </span>
+                  Tekan Simpan semua di panel Menunggu konfirmasi; sisanya bisa
+                  dimuat lagi dengan tombol Muat.
+                </li>
+              </ol>
             </div>
           </Panel>
 

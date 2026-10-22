@@ -5,8 +5,10 @@ import { closePool, database } from "@/lib/db/pg";
 import { ensureSchema, saveTransactions } from "@/lib/db/repository";
 import {
   confirmDraft,
+  confirmPendingDrafts,
   dismissDraft,
   ingestEmail,
+  readDraftPage,
   readDrafts,
   readInbox,
   receiveInbound,
@@ -336,5 +338,72 @@ describe("webhook penerusan", () => {
     });
     expect(result.userId).toBeNull();
     expect(result.reason).toMatch(/token/i);
+  });
+});
+
+describe("impor riwayat", () => {
+  const userRiwayat = "user-riwayat";
+
+  /** Notifikasi lama dengan tanggal dan nominal berbeda-beda. */
+  const historicalEmail = (day: number, amount: number, merchant: string) => `
+Pemberitahuan Transaksi
+Transaksi Debit
+Tanggal: ${String(day).padStart(2, "0")}/07/2026 08:15:00
+Nominal: Rp${amount.toLocaleString("id-ID")},00
+Merchant: ${merchant}
+Saldo: Rp 1.000.000
+`;
+
+  beforeAll(async () => {
+    const rows = [
+      [3, 120_000, "INDOMARET"],
+      [10, 130_000, "ALFAMART"],
+      [17, 140_000, "TOKOPEDIA"],
+    ] as const;
+
+    for (const [day, amount, merchant] of rows) {
+      const created = await ingestEmail(database, userRiwayat, {
+        text: historicalEmail(day, amount, merchant),
+        subject: "Notifikasi Transaksi BSI",
+        messageId: `<riwayat-${day}@bsi>`,
+      });
+      expect(created.draft).not.toBeNull();
+    }
+  });
+
+  it("membagi draf ke beberapa halaman tanpa kehilangan baris", async () => {
+    const first = await readDraftPage(database, userRiwayat, {
+      limit: 2,
+      offset: 0,
+    });
+    expect(first.total).toBe(3);
+    expect(first.drafts).toHaveLength(2);
+
+    const second = await readDraftPage(database, userRiwayat, {
+      limit: 2,
+      offset: 2,
+    });
+    expect(second.total).toBe(3);
+    expect(second.drafts).toHaveLength(1);
+
+    const ids = new Set(
+      [...first.drafts, ...second.drafts].map((draft) => draft.id),
+    );
+    expect(ids.size).toBe(3);
+  });
+
+  it("menyimpan banyak draf sekaligus dan melaporkan sisanya", async () => {
+    const first = await confirmPendingDrafts(database, userRiwayat, 2);
+    expect(first.confirmed).toBe(2);
+    expect(first.remaining).toBe(1);
+    expect((await readLedger(database, userRiwayat)).transactions).toHaveLength(2);
+
+    const rest = await confirmPendingDrafts(database, userRiwayat, 2);
+    expect(rest.confirmed).toBe(1);
+    expect(rest.remaining).toBe(0);
+
+    const ledger = await readLedger(database, userRiwayat);
+    expect(ledger.transactions).toHaveLength(3);
+    expect(ledger.transactions.every((row) => row.source === "email")).toBe(true);
   });
 });
