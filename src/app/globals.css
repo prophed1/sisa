@@ -1,0 +1,282 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Palet merek: Seashell (kertas hangat), Wheat (sorotan), Powder Blue
+ * (struktur & seri pembanding), French Blue (aksen kerja), Midnight Violet
+ * (tinta). Nama token lama dipertahankan supaya seluruh komponen ikut
+ * berubah tanpa disentuh satu per satu.
+ */
+:root {
+  --seashell: #fff4eb;
+  --wheat: #f6e0b6;
+  --powder: #a6bcc9;
+  --french: #3e4b8e;
+  --midnight: #3d1534;
+
+  --canvas: #f7ecdf;
+  --surface: #fffaf3;
+  --surface-2: #f2e5d4;
+  --surface-3: #e9d8c3;
+  --ink: #34102c;
+  --muted: #6b4a60;
+  --faint: #745464;
+  --line: #e9d8c6;
+  --line-strong: #d8bea7;
+
+  --pine: #3e4b8e;
+  --pine-hover: #334079;
+  --pine-soft: #e8ebf7;
+
+  --clay: #8f3a50;
+  --clay-soft: #f7e3e4;
+
+  --sand: #b98f4e;
+  --sand-soft: #f8ebd2;
+  --sand-ink: #7a5a22;
+
+  --sage: #8ca3b4;
+
+  /* Permukaan gelap yang dipakai di kedua tema (hero dasbor, panel masuk). */
+  --night: #33122c;
+  --night-2: #3d1534;
+  --night-line: #56304b;
+
+  --panel-shadow:
+    0 1px 2px rgba(61, 21, 52, 0.05),
+    0 12px 28px -24px rgba(61, 21, 52, 0.35);
+  --lift-shadow: 0 18px 44px -30px rgba(61, 21, 52, 0.55);
+}
+
+/*
+ * Mode gelap memakai sisi dingin palet: bidang dan garis berporos French
+ * Blue, bukan plum. Ungu Midnight tinggal di panel malam (hero, layar masuk)
+ * dan tanda merek, jadi ia jadi aksen — bukan warna seluruh layar. Warna
+ * hangat (Wheat, clay) tetap muncul di angka, lencana, dan peringatan.
+ */
+.dark {
+  --canvas: #0f1322;
+  --surface: #181d2e;
+  --surface-2: #212738;
+  --surface-3: #2b3247;
+  --ink: #f6efe6;
+  --muted: #c1c5db;
+  --faint: #969cb6;
+  --line: #293046;
+  --line-strong: #414a66;
+
+  --pine: #a9c4d4;
+  --pine-hover: #c3dbe7;
+  --pine-soft: #22334a;
+
+  --clay: #e79aab;
+  --clay-soft: #3a1f2a;
+
+  --sand: #e8c98f;
+  --sand-soft: #33260f;
+  --sand-ink: #edcf9b;
+
+  --sage: #9fb6c6;
+
+  /* Panel malam: indigo Midnight, bukan plum pekat. */
+  --night: #1d1a34;
+  --night-2: #272344;
+  --night-line: #3b3760;
+
+  --panel-shadow:
+    0 1px 2px rgba(4, 6, 16, 0.4),
+    0 12px 28px -24px rgba(4, 6, 16, 0.8);
+  --lift-shadow: 0 18px 44px -30px rgba(4, 6, 16, 0.92);
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-pine: var(--pine);
+  --color-pine-hover: var(--pine-hover);
+  --color-pine-soft: var(--pine-soft);
+  --color-clay: var(--clay);
+  --color-clay-soft: var(--clay-soft);
+  --color-sand: var(--sand);
+  --color-sand-soft: var(--sand-soft);
+  --color-sand-ink: var(--sand-ink);
+  --color-sage: var(--sage);
+  --color-powder: var(--powder);
+  --color-wheat: var(--wheat);
+  --color-seashell: var(--seashell);
+  --color-night: var(--night);
+  --color-night-2: var(--night-2);
+  --color-night-line: var(--night-line);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+
+  --shadow-panel: var(--panel-shadow);
+  --shadow-lift: var(--lift-shadow);
+}
+
+@layer base {
+  * {
+    border-color: var(--line);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--canvas);
+    /* Dua kobaran warna yang sangat tipis: kertas hangat di kiri atas,
+       pantulan powder blue di kanan atas. Bukan gradien teks, bukan glow. */
+    background-image:
+      radial-gradient(
+        62rem 34rem at 8% -12%,
+        color-mix(in srgb, var(--wheat) 34%, transparent),
+        transparent 68%
+      ),
+      radial-gradient(
+        48rem 30rem at 100% -6%,
+        color-mix(in srgb, var(--powder) 24%, transparent),
+        transparent 70%
+      );
+    background-repeat: no-repeat;
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01" 1, "cv01" 1;
+  }
+
+  /* Dua kobaran berbeda suhu: biru di kiri, hangat di kanan. */
+  .dark body {
+    background-image:
+      radial-gradient(
+        62rem 34rem at 6% -14%,
+        color-mix(in srgb, var(--french) 34%, transparent),
+        transparent 70%
+      ),
+      radial-gradient(
+        50rem 30rem at 100% -8%,
+        color-mix(in srgb, var(--wheat) 11%, transparent),
+        transparent 72%
+      );
+  }
+
+  ::selection {
+    background: var(--wheat);
+    color: var(--midnight);
+  }
+
+  :focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--pine) 70%, transparent);
+    outline-offset: 2px;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer components {
+  .num {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+
+  .hairline-grid {
+    background-image:
+      linear-gradient(to right, rgba(255, 244, 235, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 244, 235, 0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  /* Kertas: permukaan dengan kilau tipis di bibir atas, bukan bayangan tebal. */
+  .paper {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.55),
+      var(--panel-shadow);
+  }
+
+  .dark .paper {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 244, 235, 0.06),
+      var(--panel-shadow);
+  }
+
+  .reveal {
+    animation: reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .rise {
+    animation: rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes grow-bar {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.55;
+    transform: scale(0.82);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Slim, quiet scrollbars for inner panels */
+.thin-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
