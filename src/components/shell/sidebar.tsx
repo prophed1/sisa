@@ -76,7 +76,7 @@ export function Sidebar({
                       {active ? (
                         <motion.span
                           layoutId={activeLayoutId}
-                          className="absolute inset-0 rounded-full border border-ink/10 bg-ink/[0.07] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
+                          className="absolute inset-0 rounded-full border border-pine/30 bg-pine/12 shadow-[inset_0_1px_0_rgba(255,247,222,0.12),0_0_22px_-12px_var(--pine)]"
                           transition={{
                             type: "spring",
                             stiffness: 420,
@@ -115,7 +115,7 @@ export function Sidebar({
           onClick={onNavigate}
           className="group flex min-w-0 flex-1 items-center gap-2.5 rounded-2xl px-1.5 py-1.5 transition-colors hover:bg-ink/[0.05]"
         >
-          <span className="grid size-[32px] shrink-0 place-items-center rounded-full bg-[linear-gradient(140deg,rgba(201,184,251,0.9),rgba(210,100,155,0.75))] p-[1.5px]">
+          <span className="grid size-[32px] shrink-0 place-items-center rounded-full bg-[linear-gradient(140deg,rgba(242,193,78,0.95),rgba(76,127,208,0.85))] p-[1.5px]">
             <span className="grid size-full place-items-center rounded-full bg-surface text-[10.5px] font-semibold text-ink">
               {initials(user.name)}
             </span>

@@ -5,7 +5,7 @@ export function Panel({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       className={cn(
-        "paper rounded-[24px] border border-line",
+        "paper rounded-[24px] border",
         className,
       )}
       {...props}

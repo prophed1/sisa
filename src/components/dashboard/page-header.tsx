@@ -16,7 +16,7 @@ export function PageHeader() {
           <span className="size-[5px] rounded-full bg-pine" />
           {period.label}
         </div>
-        <h1 className="mt-2.5 text-[28px] font-medium leading-[1.05] tracking-[-0.045em] sm:text-[34px]">
+        <h1 className="mt-2.5 text-[30px] display leading-[1.06] sm:text-[38px]">
           Ringkasan pengeluaran
         </h1>
         <p className="mt-2 max-w-[58ch] text-[13px] leading-relaxed text-muted">

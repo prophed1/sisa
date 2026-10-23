@@ -3,7 +3,13 @@ import { redirect } from "next/navigation";
 import { LockSimple, Sparkle } from "@phosphor-icons/react/dist/ssr";
 import { AuthForm } from "@/components/auth/auth-form";
 import { BrandMark } from "@/components/brand-mark";
-import { AuroraVeil, GlassOrb, PerspectiveGrid } from "@/components/ornaments/glass-orb";
+import {
+  Cypress,
+  GreatStar,
+  NightVillage,
+  StarField,
+  SwirlSky,
+} from "@/components/ornaments/starry-night";
 import { getSessionUser } from "@/lib/auth-session";
 
 export const metadata: Metadata = {
@@ -42,20 +48,23 @@ export default async function MasukPage() {
 
   return (
     <div className="grid min-h-[100dvh] lg:grid-cols-[1.02fr_0.98fr]">
-      <div className="flex flex-col px-6 py-10 sm:px-10 lg:px-16 lg:py-14">
-        <div className="flex items-center gap-2.5">
+      <div className="relative flex flex-col overflow-hidden px-6 py-10 sm:px-10 lg:px-16 lg:py-14">
+        <StarField className="opacity-25" />
+        <SwirlSky className="opacity-10" />
+
+        <div className="relative flex items-center gap-2.5">
           <BrandMark />
           <span className="text-[15px] font-semibold leading-none tracking-[-0.02em]">
             Sisa
           </span>
         </div>
 
-        <div className="mt-auto mb-auto w-full max-w-[380px] py-12">
+        <div className="relative mt-auto mb-auto w-full max-w-[380px] py-12">
           <p className="flex items-center gap-2 text-[10.5px] font-medium uppercase tracking-[0.16em] text-faint">
-            <span className="size-[5px] rounded-full bg-pine" />
+            <span className="size-[6px] rounded-full bg-pine shadow-[0_0_8px_var(--pine)]" />
             Akun Sisa
           </p>
-          <h1 className="mt-3 text-[30px] font-medium leading-[1.05] tracking-[-0.045em] sm:text-[36px]">
+          <h1 className="mt-3 text-[31px] display leading-[1.05] sm:text-[38px]">
             Masuk, lalu lanjutkan catatanmu.
           </h1>
           <p className="mt-2.5 max-w-[46ch] text-[13px] leading-relaxed text-muted">
@@ -74,39 +83,50 @@ export default async function MasukPage() {
           </p>
         </div>
 
-        <p className="text-[10.5px] text-faint">Sisa — pelacak pengeluaran</p>
+        <p className="relative text-[10.5px] text-faint">
+          Sisa — pelacak pengeluaran
+        </p>
       </div>
 
-      <aside className="relative hidden flex-col justify-center gap-7 overflow-hidden border-l border-[var(--night-line)] bg-[var(--night)] px-12 py-14 text-[#F7F2FF] lg:flex xl:px-16">
-        <AuroraVeil />
-        <PerspectiveGrid className="h-[42%] opacity-70" />
+      <aside className="night-sky relative hidden flex-col justify-center gap-7 overflow-hidden border-l border-[var(--night-line)] px-12 py-14 text-[var(--night-ink)] lg:flex xl:px-16">
+        <StarField className="opacity-80" />
+        <SwirlSky className="opacity-60" />
+        <GreatStar
+          tone="moon"
+          className="pointer-events-none absolute -right-14 -top-16 w-[248px] opacity-90"
+        />
+        <NightVillage className="pointer-events-none absolute inset-x-0 bottom-0 h-[104px] opacity-90" />
+        <Cypress className="pointer-events-none absolute -bottom-24 -left-14 h-[84%] w-[132px] opacity-80" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[26%] bg-[linear-gradient(to_top,rgba(4,10,22,0.85),transparent)]" />
 
         <div className="relative z-10 flex flex-col gap-7">
-          <GlassOrb className="w-[132px]" tone="rose" />
-
           <div className="max-w-[42ch]">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.06] px-2.5 py-1 text-[10.5px] text-[#F7F2FF]/75">
-              <Sparkle size={12} weight="fill" className="text-[#F8B6D2]" />
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/14 bg-[#081226]/45 px-2.5 py-1 text-[10.5px] text-[#f7f0dc]/80 backdrop-blur-md">
+              <Sparkle size={12} weight="fill" className="text-[#f2c14e]" />
               Catatan lokal ikut pindah ke akunmu
             </span>
-            <p className="mt-5 text-[21px] font-medium leading-snug tracking-[-0.03em] text-[#FFFDFF]">
+            <p className="mt-5 text-[21px] font-medium leading-snug tracking-[-0.03em] text-[#fdf7e4]">
               Yang tadinya hidup di satu peramban kini mengikuti akunmu.
             </p>
           </div>
 
-          <dl className="divide-y divide-white/[0.08] border-y border-white/[0.08]">
+          <dl className="divide-y divide-white/[0.1] border-y border-white/[0.1]">
             {POINTS.map((point) => (
               <div key={point.title} className="py-3.5">
-                <dt className="text-[12.5px] font-medium text-[#FFFDFF]">
+                <dt className="text-[12.5px] font-medium text-[#fdf7e4]">
                   {point.title}
                 </dt>
-                <dd className="mt-1 max-w-[52ch] text-[11.5px] leading-relaxed text-[#F7F2FF]/60">
+                <dd className="mt-1 max-w-[52ch] text-[11.5px] leading-relaxed text-[#f7f0dc]/60">
                   {point.body}
                 </dd>
               </div>
             ))}
           </dl>
         </div>
+
+        <p className="relative z-10 text-[9.5px] uppercase tracking-[0.14em] text-[#f7f0dc]/50">
+          Terinspirasi Malam Berbintang, Vincent van Gogh · 1889
+        </p>
       </aside>
     </div>
   );

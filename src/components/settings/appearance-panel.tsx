@@ -16,13 +16,13 @@ const OPTIONS = [
   {
     value: "dark",
     label: "Gelap",
-    caption: "Grafit malam, aksen violet",
+    caption: "Langit ultramarine, bintang krom",
     icon: Moon,
   },
   {
     value: "light",
     label: "Terang",
-    caption: "Porselen dingin, kontras lembut",
+    caption: "Kanvas krem, tinta ultramarine",
     icon: Sun,
   },
 ] as const;

@@ -53,7 +53,7 @@ export function Modal({
           <div
             aria-hidden
             onClick={onClose}
-            className="absolute inset-0 bg-[#05030a]/70 backdrop-blur-[6px]"
+            className="absolute inset-0 bg-[#040a18]/75 backdrop-blur-[6px]"
           />
           <motion.div
             ref={panelRef}

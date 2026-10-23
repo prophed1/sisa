@@ -3,95 +3,99 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /*
- * Identitas baru: grafit malam dengan kabut violet di kiri atas dan semburat
- * rose di kanan. Nama token lama (seashell, pine, clay, night) dipertahankan
- * supaya seluruh komponen ikut berubah tanpa disentuh satu per satu.
+ * Malam berbintang: ultramarine dalam, cobalt, dan kuning krom, dengan krem
+ * bintang sebagai tinta. Nama token lama (seashell, pine, clay, night)
+ * dipertahankan supaya seluruh komponen ikut berubah tanpa disentuh satu per
+ * satu.
  *
- * Gelap adalah tampilan utama, jadi token dasarnya gelap. Mode terang tinggal
- * menimpa nilai yang sama di `.light`.
+ * Gelap adalah tampilan utama — langit malam. Mode terang adalah "siang di
+ * Arles": kanvas krem hangat dengan tinta ultramarine dan aksen ochre.
  */
 :root {
-  --seashell: #faf7ff;
-  --wheat: #f6d3c4;
-  --powder: #b7abdc;
-  --french: #7f63e0;
-  --midnight: #0a0713;
+  --seashell: #f7f0dc;
+  --wheat: #f5e3a8;
+  --powder: #9fbde3;
+  --french: #3f6bb5;
+  --midnight: #081226;
 
-  --canvas: #08070e;
-  --surface: #110e19;
-  --surface-2: #191423;
-  --surface-3: #221b30;
-  --ink: #f4f0fb;
-  --muted: #bcb3cd;
-  --faint: #9a90ad;
-  --line: #241d32;
-  --line-strong: #3a3050;
+  --canvas: #0a1226;
+  --surface: #101c3a;
+  --surface-2: #172650;
+  --surface-3: #1f3263;
+  --ink: #f7f0dc;
+  --muted: #c3cbe2;
+  --faint: #98a5c7;
+  --line: #22345f;
+  --line-strong: #3a5288;
 
-  --pine: #c9b8fb;
-  --pine-hover: #dbcefd;
-  --pine-soft: #241c3a;
+  /* Aksen kerja: kuning krom bintang. */
+  --pine: #f2c14e;
+  --pine-hover: #f8d473;
+  --pine-soft: #2b2b47;
 
-  --clay: #f79bb0;
-  --clay-soft: #34161f;
+  --clay: #ec8168;
+  --clay-soft: #3a2028;
 
-  --sand: #f0cb96;
-  --sand-soft: #2f2413;
-  --sand-ink: #f2d3a3;
+  --sand: #f5e3a8;
+  --sand-soft: #2c2a45;
+  --sand-ink: #f7e7b4;
 
-  --sage: #9db4d6;
+  --sage: #8fc3de;
 
   /* Permukaan malam: hero dasbor dan panel samping layar masuk. */
-  --night: #150f24;
-  --night-2: #221739;
-  --night-line: #3a2b5a;
+  --night: #0b1734;
+  --night-2: #16274f;
+  --night-line: #2c4273;
+  --night-ink: #faf3df;
 
-  --glow-a: #7b5ce0;
-  --glow-b: #d2649b;
+  --glow-a: #f2c14e;
+  --glow-b: #4c7fd0;
 
   --panel-shadow:
-    0 1px 0 0 rgba(255, 255, 255, 0.03) inset,
-    0 28px 60px -46px rgba(0, 0, 0, 0.95);
-  --lift-shadow: 0 30px 70px -40px rgba(0, 0, 0, 0.95);
+    0 1px 0 0 rgba(255, 245, 214, 0.04) inset,
+    0 30px 60px -46px rgba(1, 5, 18, 0.95);
+  --lift-shadow: 0 34px 70px -40px rgba(1, 5, 18, 0.95);
 
   color-scheme: dark;
 }
 
-/* Mode terang: porselen dingin, bukan kertas hangat — keluarga warna yang sama. */
+/* Siang di Arles: kanvas krem, tinta ultramarine, aksen ochre. */
 .light {
-  --canvas: #f4f1fa;
-  --surface: #ffffff;
-  --surface-2: #eee9f8;
-  --surface-3: #e3dcf1;
-  --ink: #191025;
-  --muted: #584f6b;
-  --faint: #6b6180;
-  --line: #e7e0f3;
-  --line-strong: #cec3e2;
+  --canvas: #f2ead3;
+  --surface: #fbf5e4;
+  --surface-2: #efe4c7;
+  --surface-3: #e4d6b2;
+  --ink: #12224a;
+  --muted: #44527a;
+  --faint: #5f6b8c;
+  --line: #dfd1af;
+  --line-strong: #c5b189;
 
-  --pine: #6a4bc4;
-  --pine-hover: #573aa9;
-  --pine-soft: #ece5fb;
+  --pine: #1e3f8f;
+  --pine-hover: #16326f;
+  --pine-soft: #e6e2ce;
 
-  --clay: #b23b58;
-  --clay-soft: #fbe6ec;
+  --clay: #9e3b24;
+  --clay-soft: #f6dfd2;
 
-  --sand: #a97a2e;
-  --sand-soft: #f8ecd6;
-  --sand-ink: #7a5a22;
+  --sand: #9a6a1e;
+  --sand-soft: #f5e9c6;
+  --sand-ink: #7a5212;
 
-  --sage: #7c93ab;
+  --sage: #3d7c9c;
 
-  --night: #1a1128;
-  --night-2: #291b42;
-  --night-line: #3d2c5c;
+  --night: #10204a;
+  --night-2: #1a2f63;
+  --night-line: #2e4680;
+  --night-ink: #faf3df;
 
-  --glow-a: #b9a4f2;
-  --glow-b: #f0b7d4;
+  --glow-a: #e9b94c;
+  --glow-b: #5885c9;
 
   --panel-shadow:
-    0 1px 0 0 rgba(255, 255, 255, 0.9) inset,
-    0 18px 40px -34px rgba(58, 32, 96, 0.45);
-  --lift-shadow: 0 24px 54px -34px rgba(58, 32, 96, 0.4);
+    0 1px 0 0 rgba(255, 255, 255, 0.85) inset,
+    0 16px 36px -30px rgba(42, 52, 84, 0.38);
+  --lift-shadow: 0 22px 48px -32px rgba(42, 52, 84, 0.36);
 
   color-scheme: light;
 }
@@ -124,9 +128,22 @@
 
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+  /* Judul halaman memakai serif agar terasa seperti label museum, bukan
+     antarmuka aplikasi biasa. Font sistem: tidak ada unduhan tambahan. */
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia,
+    ui-serif, serif;
 
   --shadow-panel: var(--panel-shadow);
   --shadow-lift: var(--lift-shadow);
+}
+
+/*
+ * Butir kanvas: SVG turbulence disimpan sebagai data URI, dipakai sebagai
+ * lapisan paling atas latar. Dibaurkan "overlay" supaya warna di bawahnya tetap
+ * hidup, bukan tertutup kabut abu-abu.
+ */
+:root {
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.34'/%3E%3C/svg%3E");
 }
 
 @layer base {
@@ -142,26 +159,42 @@
 
   body {
     background-color: var(--canvas);
-    /* Aurora: satu kabut violet, satu semburat rose, satu pantulan indigo di
-       kaki halaman. Dibiarkan sangat tipis supaya teks tetap tenang. */
+    /*
+     * Langit: bintang kuning di kanan atas, cobalt yang menyapu dari kiri,
+     * dan dasar malam yang lebih pekat di kaki halaman. Pusaran halus di
+     * tengah menjaga latar tidak terbaca sebagai gradien biasa.
+     */
     background-image:
+      var(--grain),
       radial-gradient(
-        64rem 44rem at 0% -12%,
-        color-mix(in srgb, var(--glow-a) 34%, transparent),
-        transparent 64%
+        42rem 30rem at 88% -8%,
+        color-mix(in srgb, var(--glow-a) 24%, transparent),
+        transparent 62%
       ),
       radial-gradient(
-        46rem 34rem at 94% -2%,
-        color-mix(in srgb, var(--glow-b) 19%, transparent),
-        transparent 64%
+        55rem 42rem at 4% -12%,
+        color-mix(in srgb, var(--glow-b) 42%, transparent),
+        transparent 66%
       ),
       radial-gradient(
-        58rem 40rem at 55% 108%,
-        color-mix(in srgb, var(--glow-a) 16%, transparent),
+        40rem 26rem at 62% 22%,
+        color-mix(in srgb, var(--glow-b) 20%, transparent),
+        transparent 68%
+      ),
+      radial-gradient(
+        60rem 40rem at 52% 112%,
+        color-mix(in srgb, var(--glow-b) 26%, transparent),
         transparent 70%
       );
+    background-size:
+      240px 240px,
+      auto,
+      auto,
+      auto,
+      auto;
     background-attachment: fixed;
-    background-repeat: no-repeat;
+    background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+    background-blend-mode: overlay, normal, normal, normal, normal;
     color: var(--ink);
     font-family: var(--font-sans);
     font-feature-settings: "ss01" 1, "cv01" 1;
@@ -169,25 +202,32 @@
 
   .light body {
     background-image:
+      var(--grain),
       radial-gradient(
-        58rem 40rem at 0% -14%,
-        color-mix(in srgb, var(--glow-a) 26%, transparent),
+        46rem 32rem at 92% -10%,
+        color-mix(in srgb, var(--glow-a) 34%, transparent),
         transparent 62%
       ),
       radial-gradient(
-        44rem 32rem at 96% -4%,
+        54rem 40rem at 0% -12%,
         color-mix(in srgb, var(--glow-b) 22%, transparent),
-        transparent 66%
+        transparent 64%
+      ),
+      radial-gradient(
+        60rem 40rem at 50% 110%,
+        color-mix(in srgb, var(--glow-b) 16%, transparent),
+        transparent 70%
       );
+    background-blend-mode: multiply, normal, normal, normal;
   }
 
   ::selection {
-    background: color-mix(in srgb, var(--pine) 55%, transparent);
+    background: color-mix(in srgb, var(--pine) 45%, transparent);
     color: var(--ink);
   }
 
   :focus-visible {
-    outline: 2px solid color-mix(in srgb, var(--pine) 78%, transparent);
+    outline: 2px solid color-mix(in srgb, var(--pine) 80%, transparent);
     outline-offset: 2px;
   }
 
@@ -203,7 +243,13 @@
     letter-spacing: -0.02em;
   }
 
-  /* Garis halus yang dulu dipakai di panel malam; kini lebih samar. */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+  }
+
+  /* Kisi tipis lama, dipakai sesekali sebagai aksen arsip. */
   .hairline-grid {
     background-image:
       linear-gradient(
@@ -220,43 +266,102 @@
   }
 
   /*
-   * Panel kaca: satu garis tipis di bibir atas, bayangan dalam yang sangat
-   * lembut, dan nada dasar yang naik sedikit ke arah cahaya.
+   * Panel: kanvas yang dilapisi cat. Butir halus di bibir atas, sapuan warna
+   * yang naik sedikit ke arah cahaya, dan bingkai tipis yang hangat — bukan
+   * kaca yang memantul.
    */
   .paper {
-    background-image: linear-gradient(
-      160deg,
-      color-mix(in srgb, var(--surface) 82%, white 6%) 0%,
-      var(--surface) 58%
-    );
+    border-color: color-mix(in srgb, var(--pine) 13%, var(--line));
+    background-color: var(--surface);
+    background-image:
+      var(--grain),
+      linear-gradient(
+        158deg,
+        color-mix(in srgb, var(--surface) 84%, white 7%) 0%,
+        var(--surface) 56%,
+        color-mix(in srgb, var(--surface) 90%, black 6%) 100%
+      );
+    background-size:
+      200px 200px,
+      auto;
+    background-blend-mode:
+      soft-light,
+      normal;
     box-shadow:
-      inset 0 1px 0 color-mix(in srgb, white 7%, transparent),
+      inset 0 1px 0 color-mix(in srgb, white 6%, transparent),
       var(--panel-shadow);
   }
 
   .light .paper {
-    background-image: none;
-    background-color: var(--surface);
+    background-image:
+      var(--grain),
+      linear-gradient(
+        160deg,
+        color-mix(in srgb, var(--surface) 92%, white 8%) 0%,
+        var(--surface) 62%
+      );
+    background-blend-mode:
+      multiply,
+      normal;
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.9),
       var(--panel-shadow);
   }
 
-  /* Kaca tipis untuk sidebar dan topbar: bukan panel penuh, hanya lapisan. */
+  /*
+   * Panel langit untuk hero dan layar masuk: tiga sapuan (cobalt kiri, krom
+   * kanan atas, hijau malam di kaki) di atas ultramarine.
+   */
+  .night-sky {
+    background-color: var(--night);
+    background-image:
+      var(--grain),
+      radial-gradient(
+        24rem 18rem at 88% -6%,
+        color-mix(in srgb, var(--glow-a) 30%, transparent),
+        transparent 64%
+      ),
+      radial-gradient(
+        30rem 24rem at 4% 6%,
+        color-mix(in srgb, var(--glow-b) 48%, transparent),
+        transparent 68%
+      ),
+      radial-gradient(
+        26rem 18rem at 46% 108%,
+        color-mix(in srgb, #12362f 70%, transparent),
+        transparent 72%
+      ),
+      linear-gradient(168deg, #10224c 0%, #0b1734 52%, #081226 100%);
+    background-size:
+      210px 210px,
+      auto,
+      auto,
+      auto,
+      auto;
+    background-blend-mode:
+      soft-light,
+      normal,
+      normal,
+      normal,
+      normal;
+    color: var(--night-ink);
+  }
+
+  /* Kaca tipis untuk sidebar dan topbar: lapisan malam, bukan panel penuh. */
   .glass {
-    background-color: color-mix(in srgb, var(--canvas) 62%, transparent);
-    backdrop-filter: blur(22px) saturate(120%);
+    background-color: color-mix(in srgb, var(--canvas) 78%, transparent);
+    backdrop-filter: blur(22px) saturate(125%);
   }
 
   .light .glass {
-    background-color: color-mix(in srgb, var(--surface) 72%, transparent);
+    background-color: color-mix(in srgb, var(--surface) 78%, transparent);
   }
 
-  /* Pita cahaya di balik sesuatu yang melayang (orb, angka besar). */
+  /* Pita cahaya di balik sesuatu yang bercahaya (bintang, donat). */
   .glow-halo {
     background: radial-gradient(
       circle at 50% 50%,
-      color-mix(in srgb, var(--glow-a) 55%, transparent),
+      color-mix(in srgb, var(--glow-a) 46%, transparent),
       transparent 68%
     );
     filter: blur(38px);
@@ -276,6 +381,17 @@
 
   .rise {
     animation: rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  /* Garis kuas: tepi bergelombang untuk pemisah tipis. */
+  .brush-rule {
+    height: 1px;
+    background-image: linear-gradient(
+      to right,
+      transparent,
+      color-mix(in srgb, var(--pine) 33%, transparent),
+      transparent
+    );
   }
 }
 
@@ -342,6 +458,39 @@
   50% {
     opacity: 0.85;
     transform: translate3d(2%, -3%, 0) scale(1.06);
+  }
+}
+
+/* Bintang berkelip: hanya opacity, supaya tidak menggeser tata letak. */
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+/* Pusaran langit bergoyang sangat pelan, seperti cat yang belum kering. */
+@keyframes swirl-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-1.2deg);
+  }
+  50% {
+    transform: translate3d(0, -6px, 0) rotate(1.4deg);
+  }
+}
+
+@keyframes halo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 

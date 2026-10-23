@@ -9,11 +9,11 @@ type Size = "sm" | "md" | "icon" | "smIcon";
 const idle = "disabled:bg-surface-2 disabled:text-faint disabled:shadow-none";
 
 const variants: Record<Variant, string> = {
-  primary: `bg-pine text-[#FFF7EF] shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_10px_24px_-14px_rgba(150,116,240,0.85)] hover:bg-pine-hover dark:text-[#120e1c] ${idle}`,
+  primary: `bg-pine text-[#FFF7EF] shadow-[inset_0_1px_0_rgba(255,255,255,0.3),0_10px_24px_-14px_rgba(242,193,78,0.55)] hover:bg-pine-hover dark:text-[#141024] ${idle}`,
   secondary: `border border-line bg-surface/80 text-ink shadow-[var(--shadow-panel)] backdrop-blur-md hover:bg-surface-2 ${idle}`,
   ghost: "text-muted hover:bg-ink/[0.06] hover:text-ink disabled:text-faint",
   quiet: "bg-surface-2 text-ink hover:bg-surface-3 disabled:text-faint",
-  danger: `bg-clay text-[#2a0d15] shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_10px_24px_-16px_rgba(240,120,150,0.8)] hover:brightness-[1.06] ${idle}`,
+  danger: `bg-clay text-[#FFF6E8] shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_10px_24px_-16px_rgba(236,129,104,0.7)] hover:brightness-[1.06] dark:text-[#2a0d15] ${idle}`,
 };
 
 const sizes: Record<Size, string> = {

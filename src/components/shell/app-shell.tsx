@@ -42,7 +42,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <>
             <motion.div
               key="scrim"
-              className="fixed inset-0 z-50 bg-[#05030a]/70 backdrop-blur-[3px] lg:hidden"
+              className="fixed inset-0 z-50 bg-[#040a18]/75 backdrop-blur-[3px] lg:hidden"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}

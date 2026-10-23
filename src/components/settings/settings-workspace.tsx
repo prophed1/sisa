@@ -21,7 +21,7 @@ export function SettingsWorkspace() {
             <span className="size-[5px] rounded-full bg-pine" />
             Pengaturan
           </div>
-          <h1 className="mt-2.5 max-w-[24ch] text-[26px] font-medium leading-[1.08] tracking-[-0.045em] sm:text-[32px]">
+          <h1 className="mt-2.5 max-w-[24ch] text-[27px] display leading-[1.1] sm:text-[34px]">
             Kendali atas angka dan data.
           </h1>
           <p className="mt-1.5 max-w-[62ch] text-[12.5px] leading-relaxed text-muted">

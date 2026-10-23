@@ -24,26 +24,29 @@ host `api.paxsenix.biz.id` tidak bisa dihubungi — jalur OCR dipisah di
 
 ## Palet & tema
 
-Warna diambil dari satu palet grafit–violet dan hanya didefinisikan sebagai
-token di `src/app/globals.css`; komponen memakai `bg-surface`, `text-ink`,
-`bg-pine`, dan seterusnya, jadi tidak ada layar yang menulis warna sendiri.
+Warna diambil dari palet **Malam Berbintang** — ultramarine, cobalt, kuning
+krom, dan krem bintang — dan hanya didefinisikan sebagai token di
+`src/app/globals.css`; komponen memakai `bg-surface`, `text-ink`, `bg-pine`, dan
+seterusnya, jadi tidak ada layar yang menulis warna sendiri.
 
 | Peran | Gelap (bawaan) | Terang |
 |---|---|---|
-| Kanvas | grafit `#08070E` | porselen `#F4F1FA` |
-| Permukaan panel | `#110E19` | `#FFFFFF` |
-| Garis & teks redup | `#241D32` / `#9A90AD` | `#E7E0F3` / `#6B6180` |
-| Tinta | `#F4F0FB` | `#191025` |
-| Aksen kerja (tombol, tautan) | lavender `#C9B8FB` | violet `#6A4BC4` |
-| Sorotan (badge, angka) | rose `#F8B6D2` | rose `#B23B58` |
-| Panel malam (hero, layar masuk) | `#150F24` | `#1A1128` |
+| Kanvas | ultramarine `#0A1226` | kanvas krem `#F2EAD3` |
+| Permukaan panel | `#101C3A` | `#FBF5E4` |
+| Garis & teks redup | `#22345F` / `#98A5C7` | `#DFD1AF` / `#5F6B8C` |
+| Tinta | krem bintang `#F7F0DC` | ultramarine `#12224A` |
+| Aksen kerja (tombol, tautan) | kuning krom `#F2C14E` | ultramarine `#1E3F8F` |
+| Sorotan (badge, angka) | kuning pucat `#F5E3A8` | ochre `#9A6A1E` |
+| Panel malam (hero, layar masuk) | `#0B1734` | `#10204A` |
 
-Gelap adalah tampilan utama: kanvas nyaris hitam dengan aurora violet di kiri
-atas dan semburat rose di kanan, panel kaca bergaris tipis, serta satu bola
-kaca 3D di hero. Mode terang memakai keluarga warna yang sama di sisi
-porselen, bukan palet kedua. Ornamen orb, kisi perspektif, dan tabir aurora
-digambar dengan CSS di `components/ornaments/glass-orb.tsx` — tanpa dependensi
-WebGL.
+Gelap adalah tampilan utama: langit malam dengan sapuan cobalt, butir kanvas,
+bintang berkelip, pusaran kuas, dan siluet cemara di panel hero. Mode terang
+adalah "siang di Arles" — keluarga warna yang sama di atas kanvas krem, bukan
+palet kedua. Semua ornamen (bintang besar, pusaran, cemara, kampung, dan butir
+kanvas) digambar dengan CSS dan SVG di `components/ornaments/starry-night.tsx`
+— tanpa WebGL, tanpa berkas gambar, dan tetap utuh saat animasi dimatikan.
+Judul halaman memakai serif sistem (Iowan/Palatino/Georgia) sebagai label
+museum; isi dan angka tetap Geist agar mudah dipindai.
 
 Pasangan teks/latar utama (tinta, teks redup, tautan, badge, tombol primer di
 kedua tema) semuanya di atas 4,5:1 — diperiksa dengan rumus kontras WCAG, bukan
@@ -462,12 +465,14 @@ Dua hal kecil yang mengubah rasa aplikasinya setelah riwayat menebal:
 
 ## Bahasa desain
 
-- Palet lima warna: Seashell, Wheat, Powder Blue, French Blue, Midnight
-  Violet. Mode terang berporos kertas hangat dengan aksen French Blue; mode
-  gelap berporos tinta biru dengan aksen Powder Blue, dan Midnight Violet
-  hanya untuk panel malam. Warna kategori hanya dipakai pada data, bukan pada
-  chrome UI.
-- Tipografi Geist + Geist Mono (angka memakai `tabular-nums` lewat kelas `.num`).
+- Palet Malam Berbintang: ultramarine malam sebagai dasar, cobalt untuk
+  sapuan langit, kuning krom untuk aksen kerja, krem bintang untuk tinta, dan
+  hijau cemara untuk kedalaman. Warna kategori hanya dipakai pada data, bukan
+  pada chrome UI.
+- Tekstur kanvas (SVG turbulence sebagai data URI) menempel di latar dan panel
+  dengan `background-blend-mode`, jadi terasa seperti cat, bukan gradien.
+- Tipografi Geist + Geist Mono untuk isi dan angka (`tabular-nums` lewat kelas
+  `.num`); judul halaman memakai serif sistem lewat kelas `.display`.
 - Token warna berada di `src/app/globals.css` sebagai CSS variable, dipetakan ke
   Tailwind v4 melalui `@theme inline`, dengan varian gelap di kelas `.dark`.
 - Grid 12 kolom asimetris (8/4 atau 7/5) yang runtuh jadi satu kolom di bawah
