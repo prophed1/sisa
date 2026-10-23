@@ -226,6 +226,15 @@ export function restoreSeedLedger() {
   send({ type: "replace", transactions: SEED_TRANSACTIONS });
 }
 
+/**
+ * Buang seluruh catatan di semua bulan sekaligus. Perintah `replace` dengan
+ * daftar kosong membuat server menghapus semuanya dalam satu langkah; anggaran
+ * tiap bulan tetap seperti sebelumnya.
+ */
+export function clearTransactions() {
+  send({ type: "replace", transactions: [] });
+}
+
 export function setBudgetTotal(total: number) {
   const month = currentMonth();
   if (!month) return;

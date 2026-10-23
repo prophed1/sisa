@@ -22,6 +22,7 @@ import { SEED_TRANSACTIONS } from "@/lib/data/ledger-seed";
 import { byNewest, formatDayLabel, formatLongDate } from "@/lib/finance";
 import { formatIDR } from "@/lib/format";
 import {
+  clearTransactions,
   removeTransaction,
   restoreSeedLedger,
   updateTransaction,
@@ -48,6 +49,7 @@ export function TransactionsWorkspace() {
   const [editing, setEditing] = useState<Transaction | null>(null);
   const [deleting, setDeleting] = useState<Transaction | null>(null);
   const [resetting, setResetting] = useState(false);
+  const [clearing, setClearing] = useState(false);
   const [limit, setLimit] = useState(PAGE_SIZE);
 
   const filtersActive = Boolean(query || category || from || to);
@@ -145,6 +147,16 @@ export function TransactionsWorkspace() {
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <SaveStatusBadge className="h-[26px] px-2.5" />
+          <Button
+            variant="ghost"
+            size="sm"
+            disabled={transactions.length === 0}
+            onClick={() => setClearing(true)}
+            className="text-clay hover:bg-clay-soft hover:text-clay"
+          >
+            <Trash size={13} />
+            Hapus semua
+          </Button>
           <Link
             href="/catat"
             className={buttonStyles({ variant: "primary", size: "sm" })}
@@ -378,6 +390,43 @@ export function TransactionsWorkspace() {
             </p>
           </div>
         ) : null}
+      </Modal>
+
+      <Modal
+        open={clearing}
+        onClose={() => setClearing(false)}
+        title="Hapus semua transaksi?"
+        description={`${transactions.length} catatan dari semua bulan di akun ini akan dihapus, termasuk yang berasal dari email dan scan.`}
+        footer={
+          <>
+            <Button variant="secondary" onClick={() => setClearing(false)}>
+              Batal
+            </Button>
+            <Button
+              variant="danger"
+              onClick={() => {
+                clearTransactions();
+                setClearing(false);
+                resetFilters();
+              }}
+            >
+              <Trash size={14} />
+              Hapus {transactions.length} catatan
+            </Button>
+          </>
+        }
+      >
+        <div className="rounded-[12px] border border-clay/35 bg-clay-soft/60 px-3.5 py-3 text-[11.5px] leading-relaxed text-muted">
+          Tidak ada tombol urungkan. Anggaran bulanan, tema, dan pengaturan lain
+          tetap tinggal. Kalau masih ingin menyimpan salinan, unduh CSV dulu di{" "}
+          <Link
+            href="/pengaturan"
+            className="font-medium text-pine hover:underline"
+          >
+            Pengaturan → Data &amp; cadangan
+          </Link>
+          .
+        </div>
       </Modal>
 
       <Modal
