@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import {
   ArrowCounterClockwise,
   ArrowRight,
@@ -51,6 +52,19 @@ export function TransactionsWorkspace() {
   const [resetting, setResetting] = useState(false);
   const [clearing, setClearing] = useState(false);
   const [limit, setLimit] = useState(PAGE_SIZE);
+
+  // Palet pencarian mengarahkan ke sini lewat `?cari=…`; kata kuncinya cukup
+  // diterapkan sekali supaya menghapusnya di kolom pencarian tidak langsung
+  // diisi ulang oleh alamat.
+  const params = useSearchParams();
+  const seededQuery = useRef<string | null>(null);
+  useEffect(() => {
+    const needle = params.get("cari");
+    if (!needle || seededQuery.current === needle) return;
+    seededQuery.current = needle;
+    setQuery(needle);
+    setLimit(PAGE_SIZE);
+  }, [params]);
 
   const filtersActive = Boolean(query || category || from || to);
 

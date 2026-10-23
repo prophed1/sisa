@@ -3,6 +3,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { X } from "@phosphor-icons/react";
+import { BottomNav } from "@/components/shell/bottom-nav";
 import { Sidebar } from "@/components/shell/sidebar";
 import { Topbar } from "@/components/shell/topbar";
 
@@ -31,11 +32,14 @@ export function AppShell({ children }: { children: ReactNode }) {
       </aside>
 
       <div className="flex min-h-[100dvh] flex-col lg:pl-[270px]">
-        <Topbar onOpenMenu={() => setMenuOpen(true)} />
-        <main className="mx-auto w-full max-w-[1420px] flex-1 px-4 pb-16 pt-5 sm:px-6 lg:px-8 lg:pt-7">
+        <Topbar />
+        {/* Ruang bawah menghindari bilah navigasi ponsel yang mengambang. */}
+        <main className="mx-auto w-full max-w-[1420px] flex-1 px-4 pb-[calc(104px+env(safe-area-inset-bottom))] pt-5 sm:px-6 lg:px-8 lg:pb-16 lg:pt-7">
           {children}
         </main>
       </div>
+
+      <BottomNav onOpenMenu={() => setMenuOpen(true)} />
 
       <AnimatePresence>
         {menuOpen ? (

@@ -54,6 +54,32 @@ dikira-kira. Palet kategori di `lib/data/categories.ts` dan warna
 berkas PDF di `lib/report-pdf.ts` memakai keluarga yang sama, jadi grafik, tabel,
 dan hasil cetak tidak pernah keluar dari palet.
 
+## Navigasi dan memasang di ponsel
+
+Di layar lebar, semua halaman ada di sidebar kiri. Di ponsel, sidebar diganti
+bilah bawah mengambang (`components/shell/bottom-nav.tsx`) berisi empat tujuan
+yang paling sering dibuka dan tombol **Catat** yang terangkat di tengah; sisanya
+(scan, email bank, pengaturan, keluar) ada di laci menu. Isi halaman diberi
+ruang bawah sebesar tinggi bilah plus `env(safe-area-inset-bottom)`, jadi baris
+terakhir tidak pernah tertutup di ponsel berponi.
+
+`⌘K` / `Ctrl+K` membuka palet pencarian. Selain delapan halaman, palet kini
+mencari transaksi — nama merchant, catatan, nama kategori, dan nominal (mis.
+`45000` atau `45.000`) — lalu membuka `/transaksi?cari=<merchant>` dengan kata
+kunci yang sudah terisi di kolom pencarian. Panah atas/bawah memilih, Enter
+membuka.
+
+Sisa bisa dipasang ke layar utama sebagai aplikasi:
+
+- `app/manifest.ts` menyajikan manifest (`standalone`, warna tema malam), dengan
+  ikon 192/512 px dan satu ikon *maskable* di `public/icons/`.
+- `app/apple-icon.png` menjadi `apple-touch-icon` untuk iOS, dan metadata
+  `appleWebApp` memasang judul serta status bar malam.
+- `public/sw.js` sengaja kosong: ia hanya memenuhi syarat pemasangan di Android.
+  Tidak ada cache dan tidak ada mode offline — data keuangan tidak boleh
+  disajikan dari salinan lama di perangkat. Pendaftarannya lewat
+  `components/providers/register-service-worker.tsx`, dan hanya di produksi.
+
 ## Menjalankan
 
 ```bash

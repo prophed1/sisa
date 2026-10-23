@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import {
   CircleNotch,
   CloudSlash,
-  List,
   MagnifyingGlass,
   Plus,
 } from "@phosphor-icons/react";
@@ -17,7 +16,7 @@ import { buttonStyles } from "@/components/ui/button";
 import { useLedger } from "@/lib/ledger-store";
 import { cn } from "@/lib/utils";
 
-export function Topbar({ onOpenMenu }: { onOpenMenu: () => void }) {
+export function Topbar() {
   const pathname = usePathname();
   const title = PAGE_TITLES[pathname] ?? "Sisa";
   const { status, error } = useLedger();
@@ -52,15 +51,6 @@ export function Topbar({ onOpenMenu }: { onOpenMenu: () => void }) {
     <>
       <header className="glass sticky top-0 z-30 border-b border-ink/[0.06]">
         <div className="flex h-[64px] items-center gap-3 px-4 sm:px-6 lg:px-8">
-          <button
-            type="button"
-            onClick={onOpenMenu}
-            aria-label="Buka menu"
-            className="grid size-9 place-items-center rounded-full border border-line bg-ink/[0.04] text-muted transition-colors hover:text-ink active:scale-[0.96] lg:hidden"
-          >
-            <List size={17} />
-          </button>
-
           <div className="flex min-w-0 items-center gap-2 text-[13px]">
             <span className="hidden text-faint md:inline">Ruang kerja</span>
             <span className="hidden text-line-strong md:inline">/</span>
@@ -112,16 +102,20 @@ export function Topbar({ onOpenMenu }: { onOpenMenu: () => void }) {
               </span>
             ) : null}
 
-            <Link
-              href="/catat"
-              className={buttonStyles({
-                variant: "primary",
-                className: "h-9 px-3.5",
-              })}
-            >
-              <Plus size={14} weight="bold" />
-              <span>Catat</span>
-            </Link>
+            {/* Di ponsel tombol catat sudah ada di bilah bawah; menampilkan
+                keduanya hanya membuat dua ajakan yang sama. */}
+            <span className="hidden sm:block">
+              <Link
+                href="/catat"
+                className={buttonStyles({
+                  variant: "primary",
+                  className: "h-9 px-3.5",
+                })}
+              >
+                <Plus size={14} weight="bold" />
+                <span>Catat</span>
+              </Link>
+            </span>
           </div>
         </div>
       </header>

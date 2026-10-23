@@ -102,7 +102,9 @@ export function AmountField({
           aria-invalid={invalid || undefined}
           onChange={(event) => onChange(formatAmountInput(event.target.value))}
           placeholder="0"
-          className="num h-full min-w-0 flex-1 bg-transparent text-[21px] font-medium tracking-[-0.02em] outline-none placeholder:text-faint/60"
+          // `w-0` bersama `flex-1`: tanpa itu lebar bawaan input (20 karakter)
+          // menjadi lebar minimum baris ini dan halaman ikut melebar di ponsel.
+          className="num h-full w-0 min-w-0 flex-1 bg-transparent text-[21px] font-medium tracking-[-0.02em] outline-none placeholder:text-faint/60"
         />
         <span className="num shrink-0 text-[10.5px] text-faint">
           {amount > 0 ? "ok" : "wajib"}

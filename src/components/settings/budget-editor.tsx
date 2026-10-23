@@ -21,8 +21,10 @@ import {
 import { monthLongName } from "@/lib/period";
 import { cn } from "@/lib/utils";
 
+/* `w-0` + `flex-1`: lebar bawaan input (20 karakter) tidak boleh menjadi
+ * lebar minimum kartu, atau halaman melebar di ponsel. */
 const inputClass =
-  "num h-9 w-full rounded-[9px] border border-line bg-surface px-2.5 text-[12.5px] outline-none transition-colors placeholder:font-sans placeholder:text-[11.5px] placeholder:text-faint/80 focus:border-line-strong";
+  "num h-9 w-0 min-w-0 flex-1 rounded-[9px] border border-line bg-surface px-2.5 text-[12.5px] outline-none transition-colors placeholder:font-sans placeholder:text-[11.5px] placeholder:text-faint/80 focus:border-line-strong";
 
 export function BudgetEditor() {
   const { budget, budgets, month, period } = useLedger();
@@ -91,7 +93,7 @@ export function BudgetEditor() {
                   setBudgetTotal(parseAmount(event.target.value))
                 }
                 placeholder="0"
-                className="num h-9 min-w-0 flex-1 border-b border-line-strong bg-transparent text-[21px] font-medium tracking-[-0.02em] outline-none placeholder:text-faint/60 focus:border-pine"
+                className="num h-9 w-0 min-w-0 flex-1 border-b border-line-strong bg-transparent text-[21px] font-medium tracking-[-0.02em] outline-none placeholder:text-faint/60 focus:border-pine"
               />
             </span>
           </label>
