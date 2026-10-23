@@ -57,7 +57,7 @@ export function CommandPalette({
           transition={{ duration: 0.16 }}
         >
           <div
-            className="absolute inset-0 bg-[#0C0A18]/55 backdrop-blur-[4px]"
+            className="absolute inset-0 bg-[#05030a]/70 backdrop-blur-[6px]"
             onClick={onClose}
             aria-hidden
           />
@@ -89,7 +89,7 @@ export function CommandPalette({
                 go(results[activeIndex].href);
               }
             }}
-            className="relative w-full max-w-[560px] overflow-hidden rounded-[16px] border border-line bg-surface shadow-[0_32px_80px_-32px_rgba(25,23,18,0.55)]"
+            className="relative w-full max-w-[560px] overflow-hidden rounded-[22px] border border-line bg-surface shadow-[0_50px_120px_-50px_rgba(0,0,0,0.9)]"
           >
             <div className="flex h-[52px] items-center gap-2.5 border-b border-line px-4">
               <MagnifyingGlass size={16} className="shrink-0 text-faint" />

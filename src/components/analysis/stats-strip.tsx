@@ -38,7 +38,7 @@ export function StatsStrip({ analysis }: { analysis: RangeAnalysis }) {
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-px overflow-hidden rounded-[20px] border border-line bg-line shadow-[var(--shadow-panel)] lg:grid-cols-4">
+    <div className="grid grid-cols-2 gap-px overflow-hidden rounded-[24px] border border-line bg-line shadow-[var(--shadow-panel)] lg:grid-cols-4">
       {cells.map((cell, index) => {
         const up = analysis.delta > 0;
         return (

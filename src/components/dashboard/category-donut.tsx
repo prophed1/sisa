@@ -12,7 +12,7 @@ const VIEW = 140;
 const CENTER = VIEW / 2;
 const RADIUS = 46;
 const STROKE = 13;
-const SIZE = 140;
+const SIZE = 158;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 const GAP = 2.4;
 
@@ -57,11 +57,16 @@ export function CategoryDonut() {
           </p>
         </div>
       ) : (
-        <div className="flex flex-1 flex-col items-center gap-6 px-5 pb-5 pt-2 sm:px-6 sm:pb-6 md:flex-row md:items-center md:gap-4">
+        <div className="flex flex-1 flex-col items-center justify-center gap-6 px-5 pb-5 pt-2 sm:px-6 sm:pb-6 md:flex-row md:items-center md:gap-3">
           <div className="relative shrink-0" style={{ width: SIZE, height: SIZE }}>
+            {/* Cahaya di balik donat: memberi kedalaman tanpa menambah gambar. */}
+            <span
+              aria-hidden
+              className="glow-halo pointer-events-none absolute inset-[4%] rounded-full opacity-50"
+            />
             <svg
               viewBox={`0 0 ${VIEW} ${VIEW}`}
-              className="size-full -rotate-90"
+              className="relative size-full -rotate-90"
               role="img"
               aria-label="Grafik donat proporsi pengeluaran per kategori"
             >
@@ -155,7 +160,7 @@ export function CategoryDonut() {
                       className="size-[6px] shrink-0 rounded-full"
                       style={{ backgroundColor: meta.color }}
                     />
-                    <span className="min-w-0 flex-1 truncate text-[11px] text-muted">
+                    <span className="min-w-0 flex-1 truncate text-[11.5px] text-muted">
                       {meta.shortLabel}
                     </span>
                     <span className="num shrink-0 text-[10.5px] text-faint">

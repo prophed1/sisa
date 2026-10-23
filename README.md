@@ -24,25 +24,26 @@ host `api.paxsenix.biz.id` tidak bisa dihubungi — jalur OCR dipisah di
 
 ## Palet & tema
 
-Warna diambil dari satu palet lima warna dan hanya didefinisikan sebagai token
-di `src/app/globals.css`; komponen memakai `bg-surface`, `text-ink`, `bg-pine`,
-dan seterusnya, jadi tidak ada layar yang menulis warna sendiri.
+Warna diambil dari satu palet grafit–violet dan hanya didefinisikan sebagai
+token di `src/app/globals.css`; komponen memakai `bg-surface`, `text-ink`,
+`bg-pine`, dan seterusnya, jadi tidak ada layar yang menulis warna sendiri.
 
-| Peran | Terang | Gelap |
+| Peran | Gelap (bawaan) | Terang |
 |---|---|---|
-| Kertas (kanvas) | Seashell, dinaikkan sedikit ke `#F7ECDF` | Tinta French Blue `#0F1322` |
-| Permukaan panel | `#FFFAF3` | `#181D2E` |
-| Garis & teks redup | `#E9D8C6` / plum `#6B4A60` | `#293046` / `#C1C5DB` |
-| Tinta | Midnight Violet `#34102C` | Seashell `#F6EFE6` |
-| Aksen kerja (tombol, tautan) | French Blue `#3E4B8E` | Powder Blue `#A9C4D4` |
-| Sorotan (badge, seri pembanding) | Wheat `#F6E0B6` / `#B98F4E` | Wheat `#E8C98F` |
-| Peringatan & hapus | rose `#8F3A50` | `#E79AAB` |
-| Panel malam (hero, layar masuk) | Midnight Violet `#33122C` | indigo `#1D1A34` |
+| Kanvas | grafit `#08070E` | porselen `#F4F1FA` |
+| Permukaan panel | `#110E19` | `#FFFFFF` |
+| Garis & teks redup | `#241D32` / `#9A90AD` | `#E7E0F3` / `#6B6180` |
+| Tinta | `#F4F0FB` | `#191025` |
+| Aksen kerja (tombol, tautan) | lavender `#C9B8FB` | violet `#6A4BC4` |
+| Sorotan (badge, angka) | rose `#F8B6D2` | rose `#B23B58` |
+| Panel malam (hero, layar masuk) | `#150F24` | `#1A1128` |
 
-Mode gelap sengaja berpindah ke sisi dingin palet: kanvas, permukaan, dan
-garis berporos French Blue, sedangkan Midnight Violet hanya dipakai di panel
-malam dan tanda merek. Jadi ungu terbaca sebagai aksen, bukan warna dasar
-seluruh layar; Wheat dan rose tetap muncul di angka, lencana, dan peringatan.
+Gelap adalah tampilan utama: kanvas nyaris hitam dengan aurora violet di kiri
+atas dan semburat rose di kanan, panel kaca bergaris tipis, serta satu bola
+kaca 3D di hero. Mode terang memakai keluarga warna yang sama di sisi
+porselen, bukan palet kedua. Ornamen orb, kisi perspektif, dan tabir aurora
+digambar dengan CSS di `components/ornaments/glass-orb.tsx` — tanpa dependensi
+WebGL.
 
 Pasangan teks/latar utama (tinta, teks redup, tautan, badge, tombol primer di
 kedua tema) semuanya di atas 4,5:1 — diperiksa dengan rumus kontras WCAG, bukan

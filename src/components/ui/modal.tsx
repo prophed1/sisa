@@ -53,7 +53,7 @@ export function Modal({
           <div
             aria-hidden
             onClick={onClose}
-            className="absolute inset-0 bg-[#0C0A18]/55 backdrop-blur-[4px]"
+            className="absolute inset-0 bg-[#05030a]/70 backdrop-blur-[6px]"
           />
           <motion.div
             ref={panelRef}
@@ -68,7 +68,7 @@ export function Modal({
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 8, scale: 0.99 }}
             transition={{ type: "spring", stiffness: 420, damping: 34 }}
             className={cn(
-              "relative w-full max-w-[540px] rounded-[20px] border border-line bg-surface shadow-[0_40px_90px_-40px_rgba(20,18,12,0.55)] outline-none",
+              "relative w-full max-w-[540px] rounded-[24px] border border-line bg-surface shadow-[0_50px_120px_-50px_rgba(0,0,0,0.9)] outline-none",
               className,
             )}
           >

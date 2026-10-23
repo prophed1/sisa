@@ -27,10 +27,10 @@ export const SOURCE_META: Record<
   TransactionSource,
   { label: string; color: string }
 > = {
-  manual: { label: "Catat manual", color: "#3E4B8E" },
-  email: { label: "Email BSI", color: "#8CA3B4" },
-  scan: { label: "Scan struk", color: "#C9A45E" },
-  system: { label: "Otomatis", color: "#A08C7C" },
+  manual: { label: "Catat manual", color: "#8B6FF0" },
+  email: { label: "Email BSI", color: "#3FB8A6" },
+  scan: { label: "Scan struk", color: "#D9A244" },
+  system: { label: "Otomatis", color: "#C36AA6" },
 };
 
 const OCTOBER_TRANSACTIONS: Transaction[] = [

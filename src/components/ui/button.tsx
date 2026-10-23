@@ -9,18 +9,18 @@ type Size = "sm" | "md" | "icon" | "smIcon";
 const idle = "disabled:bg-surface-2 disabled:text-faint disabled:shadow-none";
 
 const variants: Record<Variant, string> = {
-  primary: `bg-pine text-[#FFF7EF] shadow-[inset_0_1px_0_rgba(255,255,255,0.16),0_1px_2px_rgba(4,6,16,0.35)] hover:bg-pine-hover dark:text-[#0f1420] ${idle}`,
-  secondary: `border border-line bg-surface text-ink shadow-[var(--shadow-panel)] hover:bg-surface-2 ${idle}`,
-  ghost: "text-muted hover:bg-surface-2 hover:text-ink disabled:text-faint",
+  primary: `bg-pine text-[#FFF7EF] shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_10px_24px_-14px_rgba(150,116,240,0.85)] hover:bg-pine-hover dark:text-[#120e1c] ${idle}`,
+  secondary: `border border-line bg-surface/80 text-ink shadow-[var(--shadow-panel)] backdrop-blur-md hover:bg-surface-2 ${idle}`,
+  ghost: "text-muted hover:bg-ink/[0.06] hover:text-ink disabled:text-faint",
   quiet: "bg-surface-2 text-ink hover:bg-surface-3 disabled:text-faint",
-  danger: `bg-clay text-[#FFF7EF] shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_1px_2px_rgba(4,6,16,0.3)] hover:brightness-[1.06] dark:text-[#0f1420] ${idle}`,
+  danger: `bg-clay text-[#2a0d15] shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_10px_24px_-16px_rgba(240,120,150,0.8)] hover:brightness-[1.06] ${idle}`,
 };
 
 const sizes: Record<Size, string> = {
-  sm: "h-8 gap-1.5 rounded-[9px] px-3 text-[12px]",
-  md: "h-9 gap-2 rounded-[10px] px-3.5 text-[13px]",
-  icon: "size-9 rounded-[10px]",
-  smIcon: "size-8 rounded-[9px]",
+  sm: "h-8 gap-1.5 rounded-full px-3.5 text-[12px]",
+  md: "h-9 gap-2 rounded-full px-4 text-[13px]",
+  icon: "size-9 rounded-full",
+  smIcon: "size-8 rounded-full",
 };
 
 export const buttonStyles = ({

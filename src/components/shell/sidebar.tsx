@@ -25,18 +25,18 @@ export function Sidebar({
 
   return (
     <div className="flex h-full flex-col">
-      <div className="px-4 pb-5 pt-5">
+      <div className="px-4 pb-4 pt-5">
         <Link
           href="/"
           onClick={onNavigate}
-          className="flex items-center gap-2.5 rounded-xl px-1.5 py-1 transition-opacity hover:opacity-85"
+          className="flex items-center gap-2.5 rounded-2xl px-1 py-1 transition-opacity hover:opacity-85"
         >
           <BrandMark />
           <span className="min-w-0">
             <span className="block text-[15px] font-semibold leading-none tracking-[-0.02em]">
               Sisa
             </span>
-            <span className="mt-1.5 block text-[9.5px] font-medium uppercase leading-none tracking-[0.14em] text-faint">
+            <span className="mt-1.5 block text-[10px] leading-none text-faint">
               Pelacak pengeluaran
             </span>
           </span>
@@ -45,11 +45,11 @@ export function Sidebar({
 
       <nav
         aria-label="Navigasi utama"
-        className="thin-scroll flex-1 space-y-6 overflow-y-auto px-3 pb-4"
+        className="thin-scroll flex-1 space-y-5 overflow-y-auto px-3 pb-4"
       >
         {NAV_GROUPS.map((group) => (
           <div key={group.title}>
-            <p className="mb-1.5 px-2.5 text-[9.5px] font-medium uppercase tracking-[0.14em] text-faint">
+            <p className="mb-2 px-3 text-[9.5px] font-medium uppercase tracking-[0.15em] text-faint">
               {group.title}
             </p>
             <ul className="space-y-0.5">
@@ -67,36 +67,38 @@ export function Sidebar({
                       onClick={onNavigate}
                       aria-current={active ? "page" : undefined}
                       className={cn(
-                        "group relative flex h-[34px] items-center gap-2.5 rounded-[10px] px-2.5 text-[12.5px] transition-colors duration-200",
+                        "group relative flex h-[38px] items-center gap-2.5 rounded-full px-3 text-[12.5px] transition-colors duration-200",
                         active
                           ? "font-medium text-ink"
-                          : "text-muted hover:bg-surface-2/70 hover:text-ink",
+                          : "text-muted hover:bg-ink/[0.05] hover:text-ink",
                       )}
                     >
                       {active ? (
                         <motion.span
                           layoutId={activeLayoutId}
-                          className="absolute inset-0 rounded-[10px] border border-pine/15 bg-pine-soft shadow-[inset_0_1px_0_rgba(255,255,255,0.5)] dark:shadow-[inset_0_1px_0_rgba(255,244,235,0.06)]"
+                          className="absolute inset-0 rounded-full border border-ink/10 bg-ink/[0.07] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
                           transition={{
                             type: "spring",
                             stiffness: 420,
                             damping: 34,
                           }}
-                        >
-                          <span className="absolute left-0 top-1/2 h-4 w-[2px] -translate-y-1/2 rounded-full bg-pine" />
-                        </motion.span>
+                        />
                       ) : null}
                       <Icon
                         size={16}
-                        weight="regular"
+                        weight={active ? "fill" : "regular"}
                         className={cn(
                           "relative z-10 shrink-0 transition-colors",
-                          active ? "text-pine" : "text-faint group-hover:text-muted",
+                          active
+                            ? "text-pine"
+                            : "text-faint group-hover:text-muted",
                         )}
                       />
-                      <span className="relative z-10 truncate">{item.label}</span>
+                      <span className="relative z-10 truncate">
+                        {item.label}
+                      </span>
                       {active ? (
-                        <span className="relative z-10 ml-auto size-[5px] rounded-full bg-pine" />
+                        <span className="relative z-10 ml-auto size-[5px] rounded-full bg-pine shadow-[0_0_8px_var(--pine)]" />
                       ) : null}
                     </Link>
                   </li>
@@ -107,14 +109,16 @@ export function Sidebar({
         ))}
       </nav>
 
-      <div className="flex items-center gap-1 border-t border-line px-3 py-3">
+      <div className="flex items-center gap-1 border-t border-ink/[0.07] px-3 py-3">
         <Link
           href="/pengaturan"
           onClick={onNavigate}
-          className="group flex min-w-0 flex-1 items-center gap-2.5 rounded-xl px-1.5 py-1.5 transition-colors hover:bg-surface-2/70"
+          className="group flex min-w-0 flex-1 items-center gap-2.5 rounded-2xl px-1.5 py-1.5 transition-colors hover:bg-ink/[0.05]"
         >
-          <span className="grid size-[30px] shrink-0 place-items-center rounded-full border border-pine/15 bg-pine-soft text-[10.5px] font-semibold tracking-[0.02em] text-pine">
-            {initials(user.name)}
+          <span className="grid size-[32px] shrink-0 place-items-center rounded-full bg-[linear-gradient(140deg,rgba(201,184,251,0.9),rgba(210,100,155,0.75))] p-[1.5px]">
+            <span className="grid size-full place-items-center rounded-full bg-surface text-[10.5px] font-semibold text-ink">
+              {initials(user.name)}
+            </span>
           </span>
           <span className="min-w-0 flex-1">
             <span className="block truncate text-[12px] font-medium leading-tight">

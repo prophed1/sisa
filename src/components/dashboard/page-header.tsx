@@ -16,10 +16,10 @@ export function PageHeader() {
           <span className="size-[5px] rounded-full bg-pine" />
           {period.label}
         </div>
-        <h1 className="mt-2.5 text-[23px] font-medium tracking-[-0.03em] sm:text-[27px]">
+        <h1 className="mt-2.5 text-[28px] font-medium leading-[1.05] tracking-[-0.045em] sm:text-[34px]">
           Ringkasan pengeluaran
         </h1>
-        <p className="mt-1.5 max-w-[58ch] text-[12.5px] leading-relaxed text-muted">
+        <p className="mt-2 max-w-[58ch] text-[13px] leading-relaxed text-muted">
           {empty
             ? `Belum ada catatan pada ${period.label}. Pindah bulan atau catat pengeluaran pertama.`
             : `Dihitung dari ${summary.count} transaksi pada ${period.range} — catatan manual, struk, dan mutasi email dalam satu tampilan.`}

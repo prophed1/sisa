@@ -4,10 +4,10 @@ import { cn } from "@/lib/utils";
 type Tone = "neutral" | "pine" | "clay" | "sand" | "outline";
 
 const tones: Record<Tone, string> = {
-  neutral: "bg-surface-2 text-muted",
-  pine: "bg-pine-soft text-pine",
-  clay: "bg-clay-soft text-clay",
-  sand: "bg-sand-soft text-sand-ink",
+  neutral: "bg-ink/[0.06] text-muted",
+  pine: "bg-pine/15 text-pine ring-1 ring-inset ring-pine/25",
+  clay: "bg-clay/15 text-clay ring-1 ring-inset ring-clay/25",
+  sand: "bg-sand/15 text-sand-ink ring-1 ring-inset ring-sand/25",
   outline: "border border-line bg-transparent text-muted",
 };
 

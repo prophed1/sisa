@@ -38,7 +38,7 @@ export function CatatWorkspace() {
             <span className="size-[5px] rounded-full bg-pine" />
             Catat manual
           </div>
-          <h1 className="mt-2.5 text-[23px] font-medium tracking-[-0.03em] sm:text-[27px]">
+          <h1 className="mt-2.5 text-[26px] font-medium tracking-[-0.045em] sm:text-[32px]">
             Catat transaksi baru
           </h1>
           <p className="mt-1.5 max-w-[54ch] text-[12.5px] leading-relaxed text-muted">

@@ -146,7 +146,7 @@ export function ScanWorkspace() {
             <span className="size-[5px] rounded-full bg-pine" />
             Scan struk & QRIS
           </div>
-          <h1 className="mt-2.5 max-w-[26ch] text-[23px] font-medium leading-tight tracking-[-0.03em] sm:text-[27px]">
+          <h1 className="mt-2.5 max-w-[26ch] text-[26px] font-medium leading-[1.08] tracking-[-0.045em] sm:text-[32px]">
             Foto struk, form terisi sendiri.
           </h1>
           <p className="mt-1.5 max-w-[58ch] text-[12.5px] leading-relaxed text-muted">

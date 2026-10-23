@@ -33,7 +33,7 @@ import type { CategoryKey, Transaction } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 const dateInputClass =
-  "h-9 rounded-[10px] border border-line bg-surface px-2.5 text-[12px] outline-none transition-colors focus:border-line-strong [color-scheme:light] dark:[color-scheme:dark]";
+  "h-9 rounded-full border border-line bg-ink/[0.04] px-3.5 text-[12px] outline-none transition-colors focus:border-line-strong [color-scheme:light] dark:[color-scheme:dark]";
 
 /** Riwayat sudah mencakup beberapa bulan; daftar dibuka bertahap. */
 const PAGE_SIZE = 60;
@@ -135,7 +135,7 @@ export function TransactionsWorkspace() {
             <span className="size-[5px] rounded-full bg-pine" />
             Kelola catatan
           </div>
-          <h1 className="mt-2.5 text-[23px] font-medium tracking-[-0.03em] sm:text-[27px]">
+          <h1 className="mt-2.5 text-[26px] font-medium tracking-[-0.045em] sm:text-[32px]">
             Semua transaksi
           </h1>
           <p className="mt-1.5 max-w-[56ch] text-[12.5px] leading-relaxed text-muted">
@@ -484,7 +484,7 @@ function Filters({
   return (
     <Panel className="p-4 sm:p-5">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
-        <div className="flex h-9 flex-1 items-center gap-2.5 rounded-[10px] border border-line bg-surface px-3 transition-colors focus-within:border-line-strong">
+        <div className="flex h-9 flex-1 items-center gap-2.5 rounded-full border border-line bg-ink/[0.04] px-3.5 transition-colors focus-within:border-line-strong">
           <MagnifyingGlass size={15} className="shrink-0 text-faint" />
           <input
             value={query}

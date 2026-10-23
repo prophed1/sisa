@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { LockSimple, Sparkle } from "@phosphor-icons/react/dist/ssr";
 import { AuthForm } from "@/components/auth/auth-form";
 import { BrandMark } from "@/components/brand-mark";
+import { AuroraVeil, GlassOrb, PerspectiveGrid } from "@/components/ornaments/glass-orb";
 import { getSessionUser } from "@/lib/auth-session";
 
 export const metadata: Metadata = {
@@ -54,10 +55,10 @@ export default async function MasukPage() {
             <span className="size-[5px] rounded-full bg-pine" />
             Akun Sisa
           </p>
-          <h1 className="mt-2.5 text-[25px] font-medium leading-tight tracking-[-0.03em] sm:text-[29px]">
+          <h1 className="mt-3 text-[30px] font-medium leading-[1.05] tracking-[-0.045em] sm:text-[36px]">
             Masuk, lalu lanjutkan catatanmu.
           </h1>
-          <p className="mt-2 max-w-[46ch] text-[12.5px] leading-relaxed text-muted">
+          <p className="mt-2.5 max-w-[46ch] text-[13px] leading-relaxed text-muted">
             Satu akun untuk seluruh catatanmu. Catatan yang sekarang ada di
             peramban ini dipindahkan ke akun pertama yang kamu buat di sini.
           </p>
@@ -76,29 +77,36 @@ export default async function MasukPage() {
         <p className="text-[10.5px] text-faint">Sisa — pelacak pengeluaran</p>
       </div>
 
-      <aside className="hairline-grid relative hidden flex-col justify-center gap-6 border-l border-[var(--night-line)] bg-[var(--night)] px-12 py-14 lg:flex xl:px-16">
-        <div className="max-w-[42ch]">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.05] px-2.5 py-1 text-[10.5px] text-[#FFF4EB]/70">
-            <Sparkle size={12} weight="fill" className="text-[#F6E0B6]" />
-            Catatan lokal ikut pindah ke akunmu
-          </span>
-          <p className="mt-5 text-[19px] font-medium leading-snug tracking-[-0.02em] text-[#FFF9F2]">
-            Yang tadinya hidup di satu peramban kini mengikuti akunmu.
-          </p>
-        </div>
+      <aside className="relative hidden flex-col justify-center gap-7 overflow-hidden border-l border-[var(--night-line)] bg-[var(--night)] px-12 py-14 text-[#F7F2FF] lg:flex xl:px-16">
+        <AuroraVeil />
+        <PerspectiveGrid className="h-[42%] opacity-70" />
 
-        <dl className="divide-y divide-white/[0.08] border-y border-white/[0.08]">
-          {POINTS.map((point) => (
-            <div key={point.title} className="py-3.5">
-              <dt className="text-[12.5px] font-medium text-[#FFF9F2]">
-                {point.title}
-              </dt>
-              <dd className="mt-1 max-w-[52ch] text-[11.5px] leading-relaxed text-[#FFF4EB]/65">
-                {point.body}
-              </dd>
-            </div>
-          ))}
-        </dl>
+        <div className="relative z-10 flex flex-col gap-7">
+          <GlassOrb className="w-[132px]" tone="rose" />
+
+          <div className="max-w-[42ch]">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.06] px-2.5 py-1 text-[10.5px] text-[#F7F2FF]/75">
+              <Sparkle size={12} weight="fill" className="text-[#F8B6D2]" />
+              Catatan lokal ikut pindah ke akunmu
+            </span>
+            <p className="mt-5 text-[21px] font-medium leading-snug tracking-[-0.03em] text-[#FFFDFF]">
+              Yang tadinya hidup di satu peramban kini mengikuti akunmu.
+            </p>
+          </div>
+
+          <dl className="divide-y divide-white/[0.08] border-y border-white/[0.08]">
+            {POINTS.map((point) => (
+              <div key={point.title} className="py-3.5">
+                <dt className="text-[12.5px] font-medium text-[#FFFDFF]">
+                  {point.title}
+                </dt>
+                <dd className="mt-1 max-w-[52ch] text-[11.5px] leading-relaxed text-[#F7F2FF]/60">
+                  {point.body}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
       </aside>
     </div>
   );

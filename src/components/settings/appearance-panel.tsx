@@ -6,31 +6,31 @@ import { Moon, Sun } from "@phosphor-icons/react";
 import { Panel, PanelHeader } from "@/components/ui/panel";
 import { cn } from "@/lib/utils";
 
-// Tema hanya diketahui setelah hidrasi; snapshot server selalu "terang"
-// supaya HTML pertama dan render klien cocok.
+// Tema hanya diketahui setelah hidrasi; snapshot server memakai tema bawaan
+// (gelap) supaya HTML pertama dan render klien cocok.
 const subscribe = () => () => {};
 const getSnapshot = () => true;
 const getServerSnapshot = () => false;
 
 const OPTIONS = [
   {
-    value: "light",
-    label: "Terang",
-    caption: "Kanvas hangat, kontras lembut",
-    icon: Sun,
-  },
-  {
     value: "dark",
     label: "Gelap",
-    caption: "Untuk malam dan ruangan redup",
+    caption: "Grafit malam, aksen violet",
     icon: Moon,
+  },
+  {
+    value: "light",
+    label: "Terang",
+    caption: "Porselen dingin, kontras lembut",
+    icon: Sun,
   },
 ] as const;
 
 export function AppearancePanel() {
   const hydrated = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   const { resolvedTheme, setTheme } = useTheme();
-  const active = hydrated ? resolvedTheme ?? "light" : "light";
+  const active = hydrated ? resolvedTheme ?? "dark" : "dark";
 
   return (
     <Panel>

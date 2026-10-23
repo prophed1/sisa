@@ -50,13 +50,13 @@ export function Topbar({ onOpenMenu }: { onOpenMenu: () => void }) {
 
   return (
     <>
-      <header className="sticky top-0 z-30 border-b border-line bg-canvas/85 backdrop-blur-xl">
-        <div className="flex h-[60px] items-center gap-3 px-4 sm:px-6 lg:px-10">
+      <header className="glass sticky top-0 z-30 border-b border-ink/[0.06]">
+        <div className="flex h-[64px] items-center gap-3 px-4 sm:px-6 lg:px-8">
           <button
             type="button"
             onClick={onOpenMenu}
             aria-label="Buka menu"
-            className="grid size-9 place-items-center rounded-[10px] border border-line bg-surface text-muted transition-colors hover:text-ink active:scale-[0.96] lg:hidden"
+            className="grid size-9 place-items-center rounded-full border border-line bg-ink/[0.04] text-muted transition-colors hover:text-ink active:scale-[0.96] lg:hidden"
           >
             <List size={17} />
           </button>
@@ -71,11 +71,11 @@ export function Topbar({ onOpenMenu }: { onOpenMenu: () => void }) {
             <button
               type="button"
               onClick={openPalette}
-              className="hidden h-9 w-[208px] items-center gap-2 rounded-[10px] border border-line bg-surface px-3 text-left text-[12px] text-faint shadow-[var(--shadow-panel)] transition-colors hover:bg-surface-2 hover:text-muted sm:flex lg:w-[236px]"
+              className="hidden h-9 w-[208px] items-center gap-2 rounded-full border border-line bg-ink/[0.04] px-3.5 text-left text-[12px] text-faint transition-colors hover:bg-ink/[0.07] hover:text-muted sm:flex lg:w-[236px]"
             >
               <MagnifyingGlass size={15} className="shrink-0" />
               <span className="truncate">Cari halaman...</span>
-              <kbd className="ml-auto shrink-0 rounded-[5px] border border-line bg-surface-2 px-1.5 py-0.5 font-mono text-[9px] tracking-wide">
+              <kbd className="ml-auto shrink-0 rounded-full border border-line bg-ink/[0.05] px-2 py-0.5 font-mono text-[9px] tracking-wide">
                 ⌘K
               </kbd>
             </button>
@@ -92,8 +92,10 @@ export function Topbar({ onOpenMenu }: { onOpenMenu: () => void }) {
                 role="status"
                 title={error}
                 className={cn(
-                  "hidden h-9 items-center gap-1.5 rounded-[10px] border border-line px-2.5 text-[11px] sm:flex",
-                  status === "error" ? "bg-clay-soft text-clay" : "bg-surface text-faint",
+                  "hidden h-9 items-center gap-1.5 rounded-full border border-line px-3 text-[11px] sm:flex",
+                  status === "error"
+                    ? "bg-clay/15 text-clay"
+                    : "bg-ink/[0.04] text-faint",
                 )}
               >
                 {status === "saving" ? (

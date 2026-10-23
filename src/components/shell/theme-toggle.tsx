@@ -15,7 +15,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       title="Ganti tema"
       onClick={() => setTheme(isDark ? "light" : "dark")}
       className={cn(
-        "relative grid size-9 place-items-center rounded-[10px] border border-line bg-surface text-muted shadow-[var(--shadow-panel)] transition-colors duration-200 hover:bg-surface-2 hover:text-ink active:scale-[0.96]",
+        "relative grid size-9 place-items-center rounded-full border border-line bg-ink/[0.04] text-muted transition-colors duration-200 hover:bg-ink/[0.08] hover:text-ink active:scale-[0.96]",
         className,
       )}
     >

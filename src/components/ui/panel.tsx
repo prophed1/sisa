@@ -5,7 +5,7 @@ export function Panel({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       className={cn(
-        "paper rounded-[20px] border border-line bg-surface",
+        "paper rounded-[24px] border border-line",
         className,
       )}
       {...props}
@@ -36,7 +36,7 @@ export function PanelHeader({
       )}
     >
       <div className="min-w-0">
-        <h2 className="text-[14px] font-medium tracking-[-0.015em]">{title}</h2>
+        <h2 className="text-[15px] font-medium tracking-[-0.02em]">{title}</h2>
         {caption ? (
           <p className="mt-1 text-[12px] leading-relaxed text-faint">{caption}</p>
         ) : null}

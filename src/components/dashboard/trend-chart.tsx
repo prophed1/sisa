@@ -126,7 +126,7 @@ export function TrendChart() {
           <div
             role="group"
             aria-label="Mode grafik"
-            className="inline-flex rounded-[9px] border border-line bg-surface-2 p-[2px]"
+            className="inline-flex rounded-full border border-line bg-ink/[0.05] p-[3px]"
           >
             {(
               [
@@ -143,9 +143,9 @@ export function TrendChart() {
                   setActiveIndex(null);
                 }}
                 className={cn(
-                  "h-[26px] rounded-[7px] px-2.5 text-[11px] font-medium transition-colors duration-200",
+                  "h-[24px] rounded-full px-3 text-[11px] font-medium transition-colors duration-200",
                   mode === option.value
-                    ? "bg-surface text-ink shadow-[var(--shadow-panel)]"
+                    ? "bg-ink/[0.10] text-ink"
                     : "text-faint hover:text-muted",
                 )}
               >

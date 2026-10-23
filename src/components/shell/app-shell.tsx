@@ -25,14 +25,14 @@ export function AppShell({ children }: { children: ReactNode }) {
   }, [menuOpen]);
 
   return (
-    <div className="min-h-[100dvh] bg-canvas">
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-[264px] border-r border-line bg-canvas lg:block">
+    <div className="min-h-[100dvh]">
+      <aside className="glass fixed inset-y-3 left-3 z-40 hidden w-[246px] overflow-hidden rounded-[26px] border border-line shadow-[var(--lift-shadow)] lg:block">
         <Sidebar />
       </aside>
 
-      <div className="flex min-h-[100dvh] flex-col lg:pl-[264px]">
+      <div className="flex min-h-[100dvh] flex-col lg:pl-[270px]">
         <Topbar onOpenMenu={() => setMenuOpen(true)} />
-        <main className="mx-auto w-full max-w-[1420px] flex-1 px-4 pb-14 pt-6 sm:px-6 lg:px-10 lg:pt-8">
+        <main className="mx-auto w-full max-w-[1420px] flex-1 px-4 pb-16 pt-5 sm:px-6 lg:px-8 lg:pt-7">
           {children}
         </main>
       </div>
@@ -42,7 +42,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <>
             <motion.div
               key="scrim"
-              className="fixed inset-0 z-50 bg-[#0C0A18]/55 backdrop-blur-[2px] lg:hidden"
+              className="fixed inset-0 z-50 bg-[#05030a]/70 backdrop-blur-[3px] lg:hidden"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -55,7 +55,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               role="dialog"
               aria-modal="true"
               aria-label="Navigasi"
-              className="fixed inset-y-0 left-0 z-50 w-[280px] border-r border-line bg-canvas shadow-[0_0_60px_rgba(20,18,12,0.2)] lg:hidden"
+              className="fixed inset-y-3 left-3 z-50 w-[280px] overflow-hidden rounded-[26px] border border-line bg-canvas shadow-[var(--lift-shadow)] lg:hidden"
               initial={reduceMotion ? { opacity: 0 } : { x: "-102%" }}
               animate={reduceMotion ? { opacity: 1 } : { x: 0 }}
               exit={reduceMotion ? { opacity: 0 } : { x: "-102%" }}
@@ -65,7 +65,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 type="button"
                 onClick={() => setMenuOpen(false)}
                 aria-label="Tutup menu"
-                className="absolute right-3 top-4 z-10 grid size-8 place-items-center rounded-[9px] text-faint transition-colors hover:bg-surface-2 hover:text-ink"
+                className="absolute right-3 top-4 z-10 grid size-8 place-items-center rounded-full text-faint transition-colors hover:bg-ink/[0.06] hover:text-ink"
               >
                 <X size={15} />
               </button>

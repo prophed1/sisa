@@ -23,13 +23,13 @@ const BODY_BOTTOM = PAGE.height - 22;
 /** Awal isi halaman berikutnya, tepat di bawah pita judul. */
 const BODY_TOP = 34;
 
-/* Warna berkas cetak mengikuti palet aplikasi: French Blue, Midnight Violet,
- * kertas Seashell. */
-const PINE = "#3E4B8E";
-const INK = "#34102C";
-const MUTED = "#6B4A60";
-const LINE = "#E9D8C6";
-const SOFT = "#FBF1E5";
+/* Warna berkas cetak mengikuti palet aplikasi: violet aksen, tinta grafit,
+ * porselen dingin. */
+const PINE = "#6A4BC4";
+const INK = "#191025";
+const MUTED = "#584F6B";
+const LINE = "#E7E0F3";
+const SOFT = "#F3EFFB";
 
 export interface ReportPdfMeta {
   userName: string;
@@ -76,7 +76,7 @@ function drawHeader(doc: import("jspdf").jsPDF, meta: ReportPdfMeta) {
 
   doc.setFont("helvetica", "normal");
   doc.setFontSize(8.5);
-  doc.setTextColor("#F6E0B6");
+  doc.setTextColor("#E7DDFF");
   doc.text("Laporan pengeluaran", PAGE.margin, 18);
 
   doc.setFontSize(8.5);
@@ -163,7 +163,7 @@ export async function createReportPdf(report: Report, meta: ReportPdfMeta) {
         lineWidth: 0.1,
       },
       bodyStyles: { lineColor: LINE, lineWidth: 0.1 },
-      alternateRowStyles: { fillColor: "#FFFBF5" },
+      alternateRowStyles: { fillColor: "#FAF8FE" },
       columnStyles: {
         0: { cellWidth: 70 },
         1: { cellWidth: 26, halign: "right" },
@@ -202,7 +202,7 @@ export async function createReportPdf(report: Report, meta: ReportPdfMeta) {
         lineWidth: 0.1,
       },
       bodyStyles: { lineColor: LINE, lineWidth: 0.1 },
-      alternateRowStyles: { fillColor: "#FFFBF5" },
+      alternateRowStyles: { fillColor: "#FAF8FE" },
       columnStyles: {
         1: { halign: "right" },
         2: { halign: "right" },
@@ -257,7 +257,7 @@ export async function createReportPdf(report: Report, meta: ReportPdfMeta) {
         lineWidth: 0.1,
       },
       bodyStyles: { lineColor: LINE, lineWidth: 0.1 },
-      alternateRowStyles: { fillColor: "#FFFBF5" },
+      alternateRowStyles: { fillColor: "#FAF8FE" },
       columnStyles: {
         0: { cellWidth: 24 },
         1: { cellWidth: 12 },
