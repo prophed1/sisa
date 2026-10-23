@@ -8,6 +8,7 @@ import {
   CheckCircle,
   CircleNotch,
   ImageSquare,
+  Scan,
   Sparkle,
   WarningCircle,
 } from "@phosphor-icons/react";
@@ -66,7 +67,12 @@ export function ScanWorkspace() {
   const [saved, setSaved] = useState<Transaction | null>(null);
   const [dragging, setDragging] = useState(false);
   const [formKey, setFormKey] = useState(0);
+  // Dua jalur masuk: pemilih berkas (galeri, tangkapan layar, berkas) dan
+  // kamera langsung. Atribut `capture` hanya dipasang pada input kedua — kalau
+  // dipasang pada input utama, ponsel langsung membuka kamera dan berkas yang
+  // sudah ada (mis. tangkapan layar QRIS) tidak bisa dipilih.
   const inputRef = useRef<HTMLInputElement>(null);
+  const cameraRef = useRef<HTMLInputElement>(null);
 
   // Object URL dibuat saat berkas dipilih dan dilepas lagi saat diganti,
   // supaya tidak ada URL menggantung selama halaman terbuka.
@@ -178,7 +184,7 @@ export function ScanWorkspace() {
           <div
             role="button"
             tabIndex={0}
-            aria-label="Pilih gambar struk"
+            aria-label="Pilih gambar struk dari galeri atau berkas"
             onClick={() => inputRef.current?.click()}
             onKeyDown={(event) => {
               if (event.key === "Enter" || event.key === " ") {
@@ -216,8 +222,9 @@ export function ScanWorkspace() {
                   <ImageSquare size={20} />
                 </span>
                 <p className="text-[12px] text-muted">
-                  Letakkan gambar di sini, atau{" "}
-                  <span className="font-medium text-ink">pilih berkas</span>
+                  Ketuk untuk{" "}
+                  <span className="font-medium text-ink">pilih dari galeri</span>,
+                  atau letakkan gambar di sini
                 </p>
                 <p className="text-[10.5px] text-faint">
                   JPG, PNG, atau WEBP · maksimal 10 MB
@@ -228,6 +235,14 @@ export function ScanWorkspace() {
 
           <input
             ref={inputRef}
+            type="file"
+            accept="image/*"
+            className="sr-only"
+            onChange={(event) => accept(event.target.files?.[0] ?? null)}
+          />
+
+          <input
+            ref={cameraRef}
             type="file"
             accept="image/*"
             capture="environment"
@@ -248,10 +263,18 @@ export function ScanWorkspace() {
                 </>
               ) : (
                 <>
-                  <Camera size={14} />
+                  <Scan size={14} />
                   {draft ? "Baca ulang" : "Baca struk"}
                 </>
               )}
+            </Button>
+            <Button
+              variant="ghost"
+              className="sm:hidden"
+              onClick={() => cameraRef.current?.click()}
+            >
+              <Camera size={14} />
+              Kamera
             </Button>
             {file ? (
               <Button

@@ -154,16 +154,34 @@
   html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
+    /* Tanpa text-rendering: optimizeLegibility — kerning dan ligatur paksa
+     * menambah biaya tata teks di daftar panjang tanpa beda yang terlihat. */
   }
 
   body {
     background-color: var(--canvas);
-    /*
-     * Langit: bintang kuning di kanan atas, cobalt yang menyapu dari kiri,
-     * dan dasar malam yang lebih pekat di kaki halaman. Pusaran halus di
-     * tengah menjaga latar tidak terbaca sebagai gradien biasa.
-     */
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01" 1, "cv01" 1;
+  }
+
+  /*
+   * Langit: bintang kuning di kanan atas, cobalt yang menyapu dari kiri,
+   * dan dasar malam yang lebih pekat di kaki halaman. Pusaran halus di
+   * tengah menjaga latar tidak terbaca sebagai gradien biasa.
+   *
+   * Digambar pada lapisan tersendiri yang menempel di layar, bukan lewat
+   * `background-attachment: fixed` di body. Cara lama memaksa peramban
+   * melukis ulang gradien dan butir kanvas setiap kali halaman digulir;
+   * sekarang lapisannya disusun sekali, lalu hanya digeser kompositor.
+   */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-color: var(--canvas);
     background-image:
       var(--grain),
       radial-gradient(
@@ -192,15 +210,11 @@
       auto,
       auto,
       auto;
-    background-attachment: fixed;
     background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat;
     background-blend-mode: overlay, normal, normal, normal, normal;
-    color: var(--ink);
-    font-family: var(--font-sans);
-    font-feature-settings: "ss01" 1, "cv01" 1;
   }
 
-  .light body {
+  .light body::before {
     background-image:
       var(--grain),
       radial-gradient(
@@ -349,8 +363,20 @@
 
   /* Kaca tipis untuk sidebar dan topbar: lapisan malam, bukan panel penuh. */
   .glass {
-    background-color: color-mix(in srgb, var(--canvas) 78%, transparent);
-    backdrop-filter: blur(22px) saturate(125%);
+    background-color: color-mix(in srgb, var(--canvas) 84%, transparent);
+    backdrop-filter: blur(14px) saturate(118%);
+  }
+
+  /*
+   * Di layar kecil, blur latar di bilah yang terus terlihat saat menggulir
+   * lebih mahal daripada manfaatnya: setiap frame harus mengambil ulang isi
+   * di belakangnya. Warna hampir pekat memberi kesan yang sama tanpa biaya.
+   */
+  @media (max-width: 1023px) {
+    .glass {
+      background-color: color-mix(in srgb, var(--canvas) 96%, transparent);
+      backdrop-filter: none;
+    }
   }
 
   .light .glass {
@@ -449,14 +475,16 @@
   }
 }
 
+/*
+ * Cahaya yang bergeser pelan. Hanya transform: opasitas yang beranimasi di
+ * atas lapisan ber-blur memaksa blur dihitung ulang setiap frame.
+ */
 @keyframes drift-glow {
   0%,
   100% {
-    opacity: 0.55;
     transform: translate3d(0, 0, 0) scale(1);
   }
   50% {
-    opacity: 0.85;
     transform: translate3d(2%, -3%, 0) scale(1.06);
   }
 }

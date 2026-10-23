@@ -137,9 +137,10 @@ export function SwirlSky({ className }: { className?: string }) {
     <div
       aria-hidden
       className={cn(
-        "pointer-events-none absolute inset-0 overflow-hidden animate-[swirl-drift_26s_ease-in-out_infinite]",
+        "pointer-events-none absolute inset-0 overflow-hidden animate-[swirl-drift_26s_ease-in-out_infinite] max-sm:animate-none",
         className,
       )}
+      style={{ willChange: "transform" }}
     >
       <svg
         viewBox="0 0 640 420"
@@ -235,7 +236,10 @@ export function GreatStar({
         }}
       />
 
-      <div className="absolute inset-0 animate-[halo-spin_180s_linear_infinite]">
+      <div
+        className="absolute inset-0 animate-[halo-spin_180s_linear_infinite]"
+        style={{ willChange: "transform" }}
+      >
         {CORONA.map((dab, index) => (
           <span
             key={`dab-${index}`}
@@ -248,7 +252,6 @@ export function GreatStar({
               background: index % 2 === 0 ? edge : core,
               opacity: index % 3 === 0 ? 0.5 : 0.26,
               transform: `translate(-50%, -50%) rotate(${dab.rotate}deg)`,
-              filter: "blur(0.4px)",
             }}
           />
         ))}
@@ -353,8 +356,14 @@ export function NightVillage({ className }: { className?: string }) {
 export function NightGlow({ className }: { className?: string }) {
   return (
     <div aria-hidden className={cn("pointer-events-none absolute inset-0", className)}>
-      <div className="absolute -left-24 -top-28 size-[340px] animate-[drift-glow_20s_ease-in-out_infinite] rounded-full bg-[radial-gradient(circle,rgba(76,127,208,0.34),transparent_68%)] blur-2xl" />
-      <div className="absolute -right-24 top-6 size-[300px] animate-[drift-glow_24s_ease-in-out_infinite] rounded-full bg-[radial-gradient(circle,rgba(242,193,78,0.22),transparent_70%)] blur-2xl" />
+      <div
+        className="absolute -left-24 -top-28 size-[340px] animate-[drift-glow_20s_ease-in-out_infinite] rounded-full bg-[radial-gradient(circle,rgba(76,127,208,0.34),transparent_68%)] blur-2xl max-sm:animate-none"
+        style={{ willChange: "transform" }}
+      />
+      <div
+        className="absolute -right-24 top-6 size-[300px] animate-[drift-glow_24s_ease-in-out_infinite] rounded-full bg-[radial-gradient(circle,rgba(242,193,78,0.22),transparent_70%)] blur-2xl max-sm:animate-none"
+        style={{ willChange: "transform" }}
+      />
     </div>
   );
 }
