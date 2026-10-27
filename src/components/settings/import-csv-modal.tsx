@@ -146,7 +146,7 @@ export function ImportCsvModal({
       }}
       title="Impor catatan dari CSV"
       description="Kolom dicocokkan lewat namanya, jadi hasil ekspor aplikasi ini maupun mutasi bank bisa langsung masuk."
-      className="max-w-[620px]"
+      wide
       footer={
         <>
           <Button
